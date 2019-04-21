@@ -8,6 +8,8 @@
     <Folder Include="Services\" />
     <Folder Include="Repositories\" />
     <Folder Include="Models\" />
+    <Folder Include="Services\CodingSkills\" />
+    <Folder Include="Repositories\CodingSkills\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
