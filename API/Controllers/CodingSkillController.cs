@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 
 using FeatureLibrary.Models;
-using API.FilterModels;
 using Microsoft.AspNetCore.Http;
+using FeatureLibrary.Services;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -14,6 +15,13 @@ namespace API.Controllers
     [ApiController]
     public class CodingSkillController : ControllerBase
     {
+        private readonly ICodingSkillService _codingSkillService;
+
+        public CodingSkillController(ICodingSkillService codingSkillService)
+        {
+            _codingSkillService = codingSkillService;
+        }
+
         /// <summary>
         /// Get coding skills by filter.
         /// </summary>
@@ -22,9 +30,9 @@ namespace API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<CodingSkill>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(object), StatusCodes.Status204NoContent),]
-        public ActionResult<IEnumerable<CodingSkill>> Get([FromQuery] CodingSkillFilter filter)
+        public async Task<IEnumerable<CodingSkill>> Get([FromQuery] CodingSkillFilter filter)
         {
-            return new CodingSkill[] { };
+            return await _codingSkillService.GetByFilter(filter);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using FeatureLibrary.Database;
+using Microsoft.AspNetCore.Builder;
 
 namespace API.Extensions
 {
@@ -6,7 +7,7 @@ namespace API.Extensions
     /// App extension used in startup.
     /// </summary>
     public static class AppExtensions
-    {   
+    {
         /// <summary>
         /// Configure swagger UI.
         /// </summary>

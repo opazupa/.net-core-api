@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FeatureLibrary.Models
 {
@@ -21,6 +22,7 @@ namespace FeatureLibrary.Models
         /// <summary>
         /// Skill identifier.
         /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         /// <summary>
         /// Skill name.

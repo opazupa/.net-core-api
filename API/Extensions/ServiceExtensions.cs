@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using FeatureLibrary.Database;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -25,6 +27,24 @@ namespace API.Extensions
                     .AllowAnyHeader()
                     .AllowCredentials());
             });
+        }
+
+        /// <summary>
+        /// Configure database.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="dbConfig"></param>
+        public static void ConfigureDatabase(this IServiceCollection services, DatabaseConfiguration dbConfig)
+        {
+            if (dbConfig.UseInMemoryDB)
+            {
+                services.AddDbContext<FeatureContext>(options => options.UseInMemoryDatabase(databaseName: "Olli's DB"));
+
+            }
+            else
+            {
+                // TODO not implemnented for API base.
+            }
         }
 
         /// <summary>

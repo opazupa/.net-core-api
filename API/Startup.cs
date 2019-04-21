@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Extensions;
+using FeatureLibrary.Database;
+using FeatureLibrary.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +31,9 @@ namespace API
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.ConfigureCors();
             services.ConfigureSwagger();
+            services.ConfigureDatabase(Configuration.GetSection("Database").Get<DatabaseConfiguration>());
+
+            services.ConfigureFeatureServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +43,13 @@ namespace API
             {
                 app.UseDeveloperExceptionPage();
                 app.ConfigureSwagger();
+
+                using (var serviceScope = app.ApplicationServices.CreateScope())
+                {
+                    var context = serviceScope.ServiceProvider.GetService<FeatureContext>();
+                    // Seed the database.
+                    context.Database.EnsureCreated();
+                }
             }
             else
             {
@@ -47,6 +59,15 @@ namespace API
 
             app.UseHttpsRedirection();
             app.UseMvc();
+        }
+
+        /// <summary>
+        /// Initializes the db.
+        /// </summary>
+        /// <param name="context"></param>
+        private void InitializeDB(FeatureContext context)
+        {
+            throw new NotImplementedException();
         }
     }
 }

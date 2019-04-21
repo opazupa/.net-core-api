@@ -1,6 +1,4 @@
-﻿using FeatureLibrary.Models;
-
-namespace API.FilterModels
+﻿namespace FeatureLibrary.Models
 {
     /// <summary>
     /// Coding skill filter.
