@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <Folder Include="Extensions\" />
+    <Folder Include="Middlewares\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FeatureLibrary\FeatureLibrary.csproj" />

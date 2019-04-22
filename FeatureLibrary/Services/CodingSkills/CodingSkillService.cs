@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using CoreLibrary.Exceptions;
 using FeatureLibrary.Models;
 using FeatureLibrary.Repositories;
 
@@ -23,9 +24,9 @@ namespace FeatureLibrary.Services
         /// <param name="newSkill">New skill</param>
         public async Task<long> Add(CodingSkill newSkill)
         {
-            if (!string.IsNullOrWhiteSpace(newSkill.Name) || newSkill.Level == null)
+            if (string.IsNullOrWhiteSpace(newSkill.Name) || newSkill.Level == null)
             {
-                // Throw exception TODO
+                throw new BadRequestException($"Missing name {newSkill.Name} or level {newSkill.Level} for new skill.");
             }
             await _codingSkillRepository.Add(newSkill);
 
@@ -43,7 +44,7 @@ namespace FeatureLibrary.Services
 
             if (deletedSkill == null)
             {
-                // Throw exeception TODO
+                throw new NotFoundException($"Skill with id {id} not found.");
             }
 
             _codingSkillRepository.Delete(deletedSkill);
@@ -64,7 +65,7 @@ namespace FeatureLibrary.Services
             CodingSkill skill = await _codingSkillRepository.GetById(id);
             if (skill == null)
             {
-                // Throw exeception TODO
+                throw new NotFoundException($"Skill with id {id} not found.");
             }
 
             return skill;
@@ -78,15 +79,15 @@ namespace FeatureLibrary.Services
         /// <param name="updatedSkill">Updated skill</param>
         public async Task Update(long id, CodingSkill updatedSkill)
         {
-            if (!string.IsNullOrWhiteSpace(updatedSkill.Name) || updatedSkill.Level == null)
+            if (string.IsNullOrWhiteSpace(updatedSkill.Name) || updatedSkill.Level == null)
             {
-                // Throw exeception TODO
+                throw new BadRequestException($"Missing name {updatedSkill.Name} or level {updatedSkill.Level} for updated skill.");
             }
 
             CodingSkill skill = await _codingSkillRepository.GetById(id);
             if (skill == null)
             {
-                // Throw exeception TODO
+                throw new NotFoundException($"Skill with id {id} not found.");
             }
 
             skill.Level = updatedSkill.Level;

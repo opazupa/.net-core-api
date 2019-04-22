@@ -31,7 +31,6 @@ namespace API.Controllers
         /// <returns>Coding skills matching to filter values.</returns>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<CodingSkill>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(object), StatusCodes.Status204NoContent),]
         public async Task<IActionResult> Get([FromQuery] CodingSkillFilter filter)
         {
             var skills =  await _codingSkillService.GetByFilter(filter);

@@ -19,7 +19,6 @@ namespace FeatureLibrary.Database
         {
             base.OnModelCreating(modelBuilder);
          
-
             modelBuilder.Entity<CodingSkill>(entity => {
                 entity.ToTable("CodingSkill");
                 entity.HasIndex(e => e.Id);

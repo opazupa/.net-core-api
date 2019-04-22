@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Extensions;
+using API.Middlewares;
 using FeatureLibrary.Database;
 using FeatureLibrary.Services;
 using Microsoft.AspNetCore.Builder;
@@ -58,17 +59,9 @@ namespace API
                 app.UseHsts();
             }
 
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
             app.UseHttpsRedirection();
             app.UseMvc();
-        }
-
-        /// <summary>
-        /// Initializes the db.
-        /// </summary>
-        /// <param name="context"></param>
-        private void InitializeDB(FeatureContext context)
-        {
-            throw new NotImplementedException();
         }
     }
 }
