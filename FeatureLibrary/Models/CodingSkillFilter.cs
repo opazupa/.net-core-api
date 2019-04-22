@@ -5,7 +5,7 @@
     /// </summary>
     public class CodingSkillFilter
     {
-        public CodingSkillLevel Level { get; set; }
+        public CodingSkillLevel? Level { get; set; }
         public string Name { get; set; }
     }
 }

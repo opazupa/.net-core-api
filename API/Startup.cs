@@ -33,6 +33,7 @@ namespace API
             services.ConfigureSwagger();
             services.ConfigureDatabase(Configuration.GetSection("Database").Get<DatabaseConfiguration>());
 
+            // Add feature module services.
             services.ConfigureFeatureServices();
         }
 

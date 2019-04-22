@@ -11,6 +11,7 @@
     <Folder Include="Services\CodingSkills\" />
     <Folder Include="Repositories\CodingSkills\" />
     <Folder Include="Database\" />
+    <Folder Include="Services\Persistence\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />

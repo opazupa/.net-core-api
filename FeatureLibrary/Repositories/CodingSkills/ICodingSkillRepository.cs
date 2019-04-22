@@ -7,9 +7,9 @@ namespace FeatureLibrary.Repositories
     public interface ICodingSkillRepository
     {
         Task<IEnumerable<CodingSkill>> GetByFilter(CodingSkillFilter filter);
-        //Task<CodingSkill> GetById(long id);
-        //void Add(CodingSkill newSkill);
-        //void Update(long id, CodingSkill updatedSkill);
-        //void Delete(long id);
+        Task<CodingSkill> GetById(long id);
+        Task Add(CodingSkill newSkill);
+        void Update(CodingSkill updatedSkill);
+        void Delete(CodingSkill deletedSkill);
     }
 }

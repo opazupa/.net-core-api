@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-
-using FeatureLibrary.Models;
-using Microsoft.AspNetCore.Http;
-using FeatureLibrary.Services;
 using System.Threading.Tasks;
+using FeatureLibrary.Models;
+using FeatureLibrary.Services;
+using FeatureLibrary.Services.Persistence;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
@@ -16,10 +16,12 @@ namespace API.Controllers
     public class CodingSkillController : ControllerBase
     {
         private readonly ICodingSkillService _codingSkillService;
+        private readonly IPersistenceService _dbTransaction;
 
-        public CodingSkillController(ICodingSkillService codingSkillService)
+        public CodingSkillController(ICodingSkillService codingSkillService, IPersistenceService persistenceService)
         {
             _codingSkillService = codingSkillService;
+            _dbTransaction = persistenceService;
         }
 
         /// <summary>
@@ -30,9 +32,10 @@ namespace API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<CodingSkill>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(object), StatusCodes.Status204NoContent),]
-        public async Task<IEnumerable<CodingSkill>> Get([FromQuery] CodingSkillFilter filter)
+        public async Task<IActionResult> Get([FromQuery] CodingSkillFilter filter)
         {
-            return await _codingSkillService.GetByFilter(filter);
+            var skills =  await _codingSkillService.GetByFilter(filter);
+            return Ok(skills);
         }
 
         /// <summary>
@@ -40,12 +43,13 @@ namespace API.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Found coding skill.</returns>
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetById")]
         [ProducesResponseType(typeof(CodingSkill), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(object), StatusCodes.Status404NotFound)]
-        public ActionResult<CodingSkill> Get(int id)
+        public async Task<ActionResult> Get(int id)
         {
-            return new CodingSkill();
+            var skill = await _codingSkillService.GetById(id);
+            return Ok(skill);
         }
 
         /// <summary>
@@ -56,8 +60,12 @@ namespace API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(CodingSkill), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public void Post([FromBody] CodingSkill skill)
+        public async Task<ActionResult> Post([FromBody] CodingSkill skill)
         {
+            long createdSkill = await _codingSkillService.Add(skill);
+            await _dbTransaction.CompleteAsync();
+
+            return CreatedAtRoute("GetById", new { Id = createdSkill }, skill);
         }
 
         /// <summary>
@@ -69,8 +77,13 @@ namespace API.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(CodingSkill), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(object), StatusCodes.Status404NotFound)]
-        public void Put(int id, [FromBody] CodingSkill skill)
+        public async Task<ActionResult> Put(long id, [FromBody] CodingSkill skill)
         {
+            await _codingSkillService.Update(id, skill);
+            await _dbTransaction.CompleteAsync();
+
+            var updatedSkill = await _codingSkillService.GetById(id);
+            return Ok(updatedSkill);
         }
 
         /// <summary>
@@ -81,8 +94,11 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(object), StatusCodes.Status404NotFound)]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
+            await _codingSkillService.Delete(id);
+            await _dbTransaction.CompleteAsync();
+            return Ok();
         }
     }
 }

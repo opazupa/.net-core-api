@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FeatureLibrary.Models
@@ -33,6 +34,6 @@ namespace FeatureLibrary.Models
         /// Skill level.
         /// </summary>
         [Required]
-        public CodingSkillLevel Level { get; set; }
+        public CodingSkillLevel? Level { get; set; }
     }
 }
