@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using API.Extensions;
-using API.Middlewares;
+﻿using API.Extensions;
 using FeatureLibrary.Database;
 using FeatureLibrary.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace API
 {
@@ -59,7 +51,7 @@ namespace API
                 app.UseHsts();
             }
 
-            app.UseMiddleware<ExceptionHandlerMiddleware>();
+            app.ConfigureMiddlewares();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

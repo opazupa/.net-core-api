@@ -1,4 +1,5 @@
-﻿using FeatureLibrary.Database;
+﻿using API.Middlewares;
+using FeatureLibrary.Database;
 using Microsoft.AspNetCore.Builder;
 
 namespace API.Extensions
@@ -24,6 +25,15 @@ namespace API.Extensions
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Olli's API V1");
                 c.RoutePrefix = string.Empty;
             });
+        }
+
+        /// <summary>
+        /// Configure middlewares.
+        /// </summary>
+        /// <param name="app"></param>
+        public static void ConfigureMiddlewares(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
         }
     }
 }
