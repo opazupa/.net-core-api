@@ -11,11 +11,17 @@
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
     <PackageReference Include="Moq" Version="4.10.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.4" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Tests\" />
     <Folder Include="Tests\Services\" />
+    <Folder Include="Tests\Repositories\" />
+    <Folder Include="Utils\" />
+    <Folder Include="Utils\Setup\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\FeatureLibrary\FeatureLibrary.csproj" />
