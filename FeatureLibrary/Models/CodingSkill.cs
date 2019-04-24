@@ -34,6 +34,6 @@ namespace FeatureLibrary.Models
         /// Skill level.
         /// </summary>
         [Required]
-        public CodingSkillLevel? Level { get; set; }
+        public CodingSkillLevel Level { get; set; }
     }
 }

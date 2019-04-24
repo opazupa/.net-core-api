@@ -24,7 +24,7 @@ namespace FeatureLibrary.Services
         /// <param name="newSkill">New skill</param>
         public async Task<long> Add(CodingSkill newSkill)
         {
-            if (string.IsNullOrWhiteSpace(newSkill.Name) || newSkill.Level == null)
+            if (string.IsNullOrWhiteSpace(newSkill.Name) || newSkill.Level == 0)
             {
                 throw new BadRequestException($"Missing name {newSkill.Name} or level {newSkill.Level} for new skill.");
             }
@@ -79,7 +79,7 @@ namespace FeatureLibrary.Services
         /// <param name="updatedSkill">Updated skill</param>
         public async Task Update(long id, CodingSkill updatedSkill)
         {
-            if (string.IsNullOrWhiteSpace(updatedSkill.Name) || updatedSkill.Level == null)
+            if (string.IsNullOrWhiteSpace(updatedSkill.Name) || updatedSkill.Level == 0)
             {
                 throw new BadRequestException($"Missing name {updatedSkill.Name} or level {updatedSkill.Level} for updated skill.");
             }

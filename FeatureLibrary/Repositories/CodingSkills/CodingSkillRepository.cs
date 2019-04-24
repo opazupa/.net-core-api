@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FeatureLibrary.Database;
@@ -48,16 +49,16 @@ namespace FeatureLibrary.Repositories
             var codingSkills = _context.CodingSkills.AsQueryable();
 
             // Apply filter
-            if (filter.Level != null)
+            if (filter.Levels != null && filter.Levels.Any())
             {
-                codingSkills = codingSkills.Where(skill => skill.Level == filter.Level);
+                codingSkills = codingSkills.Where(skill => filter.Levels.Contains(skill.Level));
             }
             if (!string.IsNullOrWhiteSpace(filter.Name))
             {
-                codingSkills = codingSkills.Where(skill => skill.Name.Contains(filter.Name));
+                codingSkills = codingSkills.Where(skill => skill.Name.Contains(filter.Name, StringComparison.CurrentCultureIgnoreCase));
             }
 
-            return await codingSkills.ToListAsync();
+            return await codingSkills.OrderBy(skill => skill.Level).ToListAsync();
         }
 
         /// <summary>

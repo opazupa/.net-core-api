@@ -33,7 +33,7 @@ namespace API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.EnvironmentName.Equals("Testing"))
             {
                 app.UseDeveloperExceptionPage();
                 app.ConfigureSwagger();
@@ -42,7 +42,7 @@ namespace API
                 {
                     var context = serviceScope.ServiceProvider.GetService<FeatureContext>();
                     // Seed the database.
-                    context.Database.EnsureCreated();
+                    context.Database.EnsureCreatedAsync();
                 }
             }
             else

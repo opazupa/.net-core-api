@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-
+using System.Threading.Tasks;
 using CoreLibrary.Exceptions;
 
 namespace IntegrationTests.Utils
@@ -17,16 +17,17 @@ namespace IntegrationTests.Utils
         /// If configured error response is received, corresponding error is thrown.
         /// </summary>
         /// <param name="response"></param>
-        public static void CheckHttpErrorResponse(HttpResponseMessage response)
+        public async static Task CheckHttpErrorResponse(HttpResponseMessage response)
         {
+            string msg = await response.Content.ReadAsStringAsync();
             switch (response.StatusCode)
             {
                 case HttpStatusCode.BadRequest:
-                    throw new BadRequestException();
+                    throw new BadRequestException(msg);
                 case HttpStatusCode.NotFound:
-                    throw new NotFoundException();
+                    throw new NotFoundException(msg);
                 case HttpStatusCode.InternalServerError:
-                    throw new InternalServerException();
+                    throw new InternalServerException(msg);
                 default:
                     break;
             }

@@ -35,7 +35,7 @@ namespace IntegrationTests.Utils.Setup
         {
             HttpResponseMessage getResponse = await Client.GetAsync(url + IntegrationTestHelper.ToQueryString(param));
 
-            IntegrationTestHelper.CheckHttpErrorResponse(getResponse);
+            await IntegrationTestHelper.CheckHttpErrorResponse(getResponse);
 
             return JsonConvert.DeserializeObject<T>(await getResponse.Content.ReadAsStringAsync());
         }
