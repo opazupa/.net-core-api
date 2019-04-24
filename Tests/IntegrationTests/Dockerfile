@@ -1,6 +1,3 @@
-FROM microsoft/dotnet:2.2-runtime AS base
-WORKDIR /app
-
 FROM microsoft/dotnet:2.2-sdk AS build
 WORKDIR /src
 COPY Tests/IntegrationTests/IntegrationTests.csproj Tests/IntegrationTests/
@@ -13,3 +10,5 @@ WORKDIR /src/Tests/IntegrationTests
 RUN dotnet build IntegrationTests.csproj -c Release -o /app
 
 RUN dotnet test --logger:trx
+
+ENTRYPOINT ["dotnet", "test", "--logger:trx"]
