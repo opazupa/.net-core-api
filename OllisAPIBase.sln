@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "Tests\I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLibrary", "CoreLibrary\CoreLibrary.csproj", "{2360BB76-8A9E-4613-9AF3-727655E11EA7}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{D305F014-6262-438F-BAA6-5922CA0AE850}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,5 +39,9 @@ Global
 		{2360BB76-8A9E-4613-9AF3-727655E11EA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2360BB76-8A9E-4613-9AF3-727655E11EA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2360BB76-8A9E-4613-9AF3-727655E11EA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D305F014-6262-438F-BAA6-5922CA0AE850}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D305F014-6262-438F-BAA6-5922CA0AE850}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D305F014-6262-438F-BAA6-5922CA0AE850}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D305F014-6262-438F-BAA6-5922CA0AE850}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
