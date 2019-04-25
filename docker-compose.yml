@@ -6,17 +6,5 @@ services:
     build:
       context: .
       dockerfile: API/Dockerfile
-
-  integrationtests:
-    image: ${DOCKER_REGISTRY-}integrationtests
-    build:
-      context: .
-      dockerfile: Tests/IntegrationTests/Dockerfile
-
-
-  unittests:
-    image: ${DOCKER_REGISTRY-}unittests
-    build:
-      context: .
-      dockerfile: Tests/UnitTests/Dockerfile
+      
 
