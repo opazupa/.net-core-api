@@ -5,6 +5,11 @@
   <GenerateDocumentationFile>true</GenerateDocumentationFile>
   <NoWarn>$(NoWarn);1591</NoWarn>
   <DockerComposeProjectPath>../docker-compose.dcproj</DockerComposeProjectPath>
+  <PackOnBuild>true</PackOnBuild>
+  <PackageId>OlSa</PackageId>
+  <PackageVersion>1.0</PackageVersion>
+  <Authors>Olli Saarinen</Authors>
+  <Description>Olli's .NET Core API Base</Description>
 </PropertyGroup>
 
   <PropertyGroup>
@@ -17,6 +22,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.0" />
   </ItemGroup>
 
   <ItemGroup>
