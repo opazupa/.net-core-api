@@ -23,7 +23,10 @@ namespace IntegrationTests.Utils.Setup
             base.ConfigureServices(services);
             
             // Disable possible authentication
-            services.AddMvc(o => o.Filters.Add(new AllowAnonymousFilter()));
+            services.AddMvc(o => {
+                o.Filters.Add(new AllowAnonymousFilter());
+                o.Filters.Add(new TestUserFilter());
+            });
         }
     }
 }
