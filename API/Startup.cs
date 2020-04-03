@@ -3,7 +3,6 @@ using FeatureLibrary.Database;
 using FeatureLibrary.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
@@ -25,7 +24,7 @@ namespace API
             services.AddControllers();
             services.ConfigureCors();
             services.ConfigureSwagger();
-            services.ConfigureDatabase(Configuration.GetSection("Database").Get<DatabaseConfiguration>());
+            services.ConfigureDatabase(Configuration.GetSection(nameof(DatabaseConfiguration)).Get<DatabaseConfiguration>());
 
             // Add feature module services.
             services.ConfigureFeatureServices();

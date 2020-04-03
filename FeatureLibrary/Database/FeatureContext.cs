@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using FeatureLibrary.Models;
-using static FeatureLibrary.Database.SkillMock;
-using System.Linq;
 
 namespace FeatureLibrary.Database
 {
@@ -21,7 +19,7 @@ namespace FeatureLibrary.Database
             base.OnModelCreating(modelBuilder);
          
             modelBuilder.Entity<CodingSkill>(entity => {
-                entity.ToTable("CodingSkill");
+                entity.ToTable(nameof(CodingSkill));
                 entity.HasIndex(e => e.Id);
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
