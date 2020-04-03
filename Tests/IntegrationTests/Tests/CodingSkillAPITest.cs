@@ -24,8 +24,8 @@ namespace IntegrationTests
         {
             var filter = new
             {
-                Levels = CodingSkillLevel.Master,
-                Name = "#"
+                Levels = testSkill.Level,
+                Name = testSkill.Name
             };
 
 

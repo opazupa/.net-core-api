@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
 using FeatureLibrary.Models;
+using static FeatureLibrary.Database.SkillMock;
+using System.Linq;
 
 namespace FeatureLibrary.Database
 {

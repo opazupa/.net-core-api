@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FeatureLibrary.Models;
+using static FeatureLibrary.Database.SkillMock;
 
 namespace FeatureLibrary.Database
 {
     public static class SeedData
     {
-        public static readonly List<CodingSkill> CodingSkills = new List<CodingSkill>(){
-            new CodingSkill() { Id = 999, Name = "Python", Level = CodingSkillLevel.Ok },
-            new CodingSkill() { Id = 99, Name = "C#", Level = CodingSkillLevel.Master }
-        };
+        public static readonly List<CodingSkill> CodingSkills = GetSkills(15).ToList();
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using FeatureLibrary.Models;
 using FeatureLibrary.Repositories;
 using UnitTests.Utils.Setup;
-using static UnitTests.Mocks.TestMocks;
+using static FeatureLibrary.Database.SkillMock;
 using Xunit;
 
 namespace UnitTests.Services
@@ -12,7 +12,6 @@ namespace UnitTests.Services
     public class CodingSkillRepositoryTest
     {
         private readonly IEnumerable<CodingSkill> testSkills = GetSkills(2);
-
 
         [Fact]
         public async Task GetSkillById()
