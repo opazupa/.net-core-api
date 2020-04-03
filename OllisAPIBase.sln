@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{3CE50187-98F1-4F2B-921C-823948692CA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureLibrary", "FeatureLibrary\FeatureLibrary.csproj", "{7A1C1B91-C393-4359-B34F-8439A0822D0B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureLibrary", "Libraries\FeatureLibrary\FeatureLibrary.csproj", "{7A1C1B91-C393-4359-B34F-8439A0822D0B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "Tests\UnitTests\UnitTests.csproj", "{AB56127C-9284-4BE8-9E63-CBA5241CF895}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "Tests\IntegrationTests\IntegrationTests.csproj", "{5290DFDD-AB29-4C44-B05C-3B97BC409A8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLibrary", "CoreLibrary\CoreLibrary.csproj", "{2360BB76-8A9E-4613-9AF3-727655E11EA7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLibrary", "Libraries\CoreLibrary\CoreLibrary.csproj", "{2360BB76-8A9E-4613-9AF3-727655E11EA7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DB96E3E9-F22D-4AAB-AE00-BEBDC984A67D}"
 EndProject

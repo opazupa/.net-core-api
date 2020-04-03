@@ -30,8 +30,8 @@
     <Folder Include="Middlewares\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FeatureLibrary\FeatureLibrary.csproj" />
-    <ProjectReference Include="..\CoreLibrary\CoreLibrary.csproj" />
+    <ProjectReference Include="..\Libraries\FeatureLibrary\FeatureLibrary.csproj" />
+    <ProjectReference Include="..\Libraries\CoreLibrary\CoreLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="appsettings.json">

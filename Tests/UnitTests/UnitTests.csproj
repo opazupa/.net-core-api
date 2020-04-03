@@ -27,6 +27,6 @@
     <Folder Include="Utils\Setup\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\FeatureLibrary\FeatureLibrary.csproj" />
+    <ProjectReference Include="..\..\Libraries\FeatureLibrary\FeatureLibrary.csproj" />
   </ItemGroup>
 </Project>
