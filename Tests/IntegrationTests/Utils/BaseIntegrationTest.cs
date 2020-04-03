@@ -1,28 +1,42 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Xunit;
 
 namespace IntegrationTests.Utils.Setup
 {
     /// <summary>
     /// Base class for integration tests providing HTTP client for test server and common functions. 
     /// </summary>
-    public class BaseIntegrationTest : IClassFixture<APITestFactory<TestStartup>>
+    public class BaseIntegrationTest
     {
-        private readonly WebApplicationFactory<TestStartup> _factory;
-        private readonly HttpClient Client;
+        #region test client
+        private readonly HttpClient Client = new HostBuilder()
+                            .ConfigureWebHost(webHost =>
+                            {
+                                webHost.UseContentRoot(".");
+                                // Use testing environment
+                                webHost.UseEnvironment("Testing");
+                                webHost.ConfigureAppConfiguration((ctx, conf) =>
+                                {
+                                    // Include testing appsettings
+                                    conf.SetBasePath(Directory.GetCurrentDirectory());
+                                    conf.AddJsonFile($"appsettings.json", optional: false);
+                                    conf.AddJsonFile($"appsettings.{ctx.HostingEnvironment.EnvironmentName}.json", optional: false);
+                                });
+                                // Add TestServer
+                                webHost.UseTestServer();
+                                webHost.UseStartup<TestStartup>();
+                            })
+                            .Start()
+                            .GetTestClient();
 
-        /// <summary>
-        /// Create new test server and http client with TestStartup.
-        /// </summary>
-        /// <param name="factory"></param>
-        public BaseIntegrationTest(APITestFactory<TestStartup> factory)
-        {
-            _factory = factory;
-            Client = _factory.CreateClient();
-        }
+        #endregion
+
 
         /// <summary>
         /// Execute a GET request with given url and optional parametrs.

@@ -21,7 +21,7 @@ namespace IntegrationTests.Utils.Setup
         public override void ConfigureServices(IServiceCollection services)
         {
             base.ConfigureServices(services);
-            
+
             // Disable possible authentication
             services.AddMvc(o => {
                 o.Filters.Add(new AllowAnonymousFilter());
