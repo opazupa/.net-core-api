@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.2-sdk AS build
+FROM microsoft/dotnet:3.1-sdk AS build
 WORKDIR /src
 COPY Tests/IntegrationTests/IntegrationTests.csproj Tests/IntegrationTests/
 COPY API/API.csproj API/
