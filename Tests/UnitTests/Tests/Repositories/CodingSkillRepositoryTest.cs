@@ -4,49 +4,41 @@ using System.Linq;
 using FeatureLibrary.Models;
 using FeatureLibrary.Repositories;
 using UnitTests.Utils.Setup;
+using static UnitTests.Mocks.TestMocks;
 using Xunit;
 
 namespace UnitTests.Services
 {
     public class CodingSkillRepositoryTest
     {
-        private readonly IEnumerable<CodingSkill> testSkills = new List<CodingSkill>()
-        {
-            new CodingSkill(){Id = 1, Level = CodingSkillLevel.Ok, Name = "Python" },
-            new CodingSkill(){Id = 2, Level = CodingSkillLevel.Master, Name = "Typescript" }
-        };
+        private readonly IEnumerable<CodingSkill> testSkills = GetSkills(2);
 
 
         [Fact]
         public async Task GetSkillById()
         {
-            using (var ctx = await DBContextHelper.ResetWithData(testSkills))
-            {
-                ICodingSkillRepository repo  = new CodingSkillRepository(ctx);
+            using var ctx = await DBContextHelper.ResetWithData(testSkills);
+            ICodingSkillRepository repo = new CodingSkillRepository(ctx);
 
-                CodingSkill skill = await repo.GetById(testSkills.First().Id);
+            CodingSkill skill = await repo.GetById(testSkills.First().Id);
 
-                Assert.Equal(skill.Id, testSkills.First().Id);
-                Assert.Equal(skill.Name, testSkills.First().Name);
-                Assert.Equal(skill.Level, testSkills.First().Level);
-            }
+            Assert.Equal(skill.Id, testSkills.First().Id);
+            Assert.Equal(skill.Name, testSkills.First().Name);
+            Assert.Equal(skill.Level, testSkills.First().Level);
         }
 
         [Fact]
         public async Task GetSkillByLevel()
         {
-            using (var ctx = await DBContextHelper.ResetWithData(testSkills))
+            using var ctx = await DBContextHelper.ResetWithData(testSkills);
+            ICodingSkillRepository repo = new CodingSkillRepository(ctx); var filter = new CodingSkillFilter()
             {
-                ICodingSkillRepository repo = new CodingSkillRepository(ctx); var filter = new CodingSkillFilter()
+                Levels = testSkills.Select(s => s.Level).Take(1).ToList()
+            };
+            IEnumerable<CodingSkill> skills = await repo.GetByFilter(filter);
 
-                {
-                    Levels = new List<CodingSkillLevel>() { CodingSkillLevel.Master, CodingSkillLevel.GettingThingsDone }
-                };
-                IEnumerable<CodingSkill> skills = await repo.GetByFilter(filter);
-
-                Assert.All(skills, skill => filter.Levels.Contains(skill.Level));
-                Assert.Equal(skills.First().Name, testSkills.ElementAt(1).Name); // Typescript
-            }
+            Assert.All(skills, skill => filter.Levels.Contains(skill.Level));
+            Assert.Equal(skills, testSkills.Take(1));
         }
     }
 }

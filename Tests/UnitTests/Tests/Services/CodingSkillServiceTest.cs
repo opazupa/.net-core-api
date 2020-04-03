@@ -1,10 +1,11 @@
+using System.Linq;
 using System.Threading.Tasks;
 using CoreLibrary.Exceptions;
-using FeatureLibrary.Models;
 using FeatureLibrary.Repositories;
 using FeatureLibrary.Services;
 using Moq;
 using Xunit;
+using static UnitTests.Mocks.TestMocks;
 
 namespace UnitTests.Services
 {
@@ -14,7 +15,9 @@ namespace UnitTests.Services
         [Fact]
         public async Task AddCodingSkillWithNoLevel()
         {
-            var toAdd = new CodingSkill() { Name = "Angular", Id = 3 };
+            var toAdd = GetSkills(1).First();
+            toAdd.Level = 0;
+
             var _repository = new Mock<ICodingSkillRepository>();
             _repository.Setup(x => x.Add(null)).Returns(Task.FromResult(toAdd));
 

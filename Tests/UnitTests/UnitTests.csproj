@@ -17,6 +17,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.3" />
+    <PackageReference Include="Bogus" Version="29.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +26,7 @@
     <Folder Include="Tests\Repositories\" />
     <Folder Include="Utils\" />
     <Folder Include="Utils\Setup\" />
+    <Folder Include="Mocks\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\FeatureLibrary\FeatureLibrary.csproj" />

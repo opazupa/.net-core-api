@@ -2,10 +2,11 @@
 using FeatureLibrary.Database;
 using FeatureLibrary.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
 
 namespace API
 {
@@ -21,7 +22,7 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public virtual void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllers();
             services.ConfigureCors();
             services.ConfigureSwagger();
             services.ConfigureDatabase(Configuration.GetSection("Database").Get<DatabaseConfiguration>());
@@ -31,19 +32,17 @@ namespace API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment() || env.EnvironmentName.Equals("Testing"))
             {
                 app.UseDeveloperExceptionPage();
                 app.ConfigureSwagger();
 
-                using (var serviceScope = app.ApplicationServices.CreateScope())
-                {
-                    var context = serviceScope.ServiceProvider.GetService<FeatureContext>();
-                    // Seed the database.
-                    context.Database.EnsureCreatedAsync();
-                }
+                using var serviceScope = app.ApplicationServices.CreateScope();
+                var context = serviceScope.ServiceProvider.GetService<FeatureContext>();
+                // Seed the database.
+                context.Database.EnsureCreatedAsync();
             }
             else
             {
@@ -53,7 +52,12 @@ namespace API
 
             app.ConfigureMiddlewares();
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

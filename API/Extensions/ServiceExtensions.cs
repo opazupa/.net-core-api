@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using FeatureLibrary.Database;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -38,8 +39,7 @@ namespace API.Extensions
         {
             if (dbConfig.UseInMemoryDB)
             {
-                services.AddDbContext<FeatureContext>(options => options.UseInMemoryDatabase(databaseName: "Olli's DB"));
-
+                services.AddDbContext<FeatureContext>(options => options.UseInMemoryDatabase(databaseName: $"Olli's {nameof(FeatureContext)} DB"));
             }
             else
             {
@@ -56,7 +56,7 @@ namespace API.Extensions
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Olli's API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Olli's API", Version = "v1" });
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
