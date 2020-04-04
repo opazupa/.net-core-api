@@ -1,15 +1,15 @@
 ﻿using System.Threading.Tasks;
-using FeatureLibrary.Database;
+using Microsoft.EntityFrameworkCore;
 
-namespace FeatureLibrary.Services.Persistence
+namespace CoreLibrary.Services.Persistence
 {
     /// <summary>
     /// Persistence service for db TXs.
     /// </summary>
-    public class PersistenceService: IPersistenceService
+    public class PersistenceService<T> : IPersistenceService where T : DbContext
     {
-        private readonly FeatureContext _dbContext;
-        public PersistenceService(FeatureContext context)
+        private readonly T _dbContext;
+        public PersistenceService(T context)
         {
             _dbContext = context;
         }

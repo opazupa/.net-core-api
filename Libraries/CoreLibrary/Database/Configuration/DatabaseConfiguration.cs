@@ -1,4 +1,4 @@
-namespace API 
+namespace CoreLibrary.Database 
 {
     public class DatabaseConfiguration
     {

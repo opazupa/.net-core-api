@@ -1,22 +1,25 @@
 ﻿using API.Extensions;
+using CoreLibrary.Database;
 using FeatureLibrary.Database;
-using FeatureLibrary.Services;
+using FeatureLibrary.Extensions;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace API
 {
     public class Startup
     {
+        private IConfiguration Configuration { get; }
+        private readonly DatabaseConfiguration _databaseConfiguration;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            _databaseConfiguration = Configuration.GetSection(nameof(DatabaseConfiguration)).Get<DatabaseConfiguration>();
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public virtual void ConfigureServices(IServiceCollection services)
@@ -24,7 +27,7 @@ namespace API
             services.AddControllers();
             services.ConfigureCors();
             services.ConfigureSwagger();
-            services.ConfigureDatabase(Configuration.GetSection(nameof(DatabaseConfiguration)).Get<DatabaseConfiguration>());
+            services.ConfigureDatabase(_databaseConfiguration);
 
             // Add feature module services.
             services.ConfigureFeatureServices();
@@ -39,9 +42,8 @@ namespace API
                 app.ConfigureSwagger();
 
                 using var serviceScope = app.ApplicationServices.CreateScope();
-                var context = serviceScope.ServiceProvider.GetService<FeatureContext>();
-                // Seed the database.
-                context.Database.EnsureCreatedAsync();
+                // Reset and seed the database.
+                serviceScope.ServiceProvider.GetService<FeatureContext>().Database.EnsureCreatedAsync();
             }
             else
             {

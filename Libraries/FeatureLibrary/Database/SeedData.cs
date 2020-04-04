@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using FeatureLibrary.Models;
-using static FeatureLibrary.Database.SkillMock;
+using static FeatureLibrary.Database.MockData;
 
 namespace FeatureLibrary.Database
 {

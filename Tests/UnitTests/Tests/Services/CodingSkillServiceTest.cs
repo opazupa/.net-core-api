@@ -5,7 +5,7 @@ using FeatureLibrary.Repositories;
 using FeatureLibrary.Services;
 using Moq;
 using Xunit;
-using static FeatureLibrary.Database.SkillMock;
+using static FeatureLibrary.Database.MockData;
 
 namespace UnitTests.Services
 {

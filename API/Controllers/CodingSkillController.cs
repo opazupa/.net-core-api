@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using FeatureLibrary.Models;
 using FeatureLibrary.Services;
-using FeatureLibrary.Services.Persistence;
+using CoreLibrary.Services.Persistence;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

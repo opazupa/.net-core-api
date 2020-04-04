@@ -1,17 +1,15 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Bogus;
 using FeatureLibrary.Models;
 
 namespace FeatureLibrary.Database
 {
-    public static class SkillMock
+    public static class MockData
     {
         /// <summary>
         /// Get seed skills 
         /// </summary>
         /// <param name="amount"></param>
-        /// <param name="populateIds"></param>
         /// <returns></returns>
         public static IEnumerable<CodingSkill> GetSkills(int amount)
         {

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FeatureLibrary.Services.Persistence
+namespace CoreLibrary.Services.Persistence
 {
     public interface IPersistenceService
     {

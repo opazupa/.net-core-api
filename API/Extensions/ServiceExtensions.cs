@@ -5,7 +5,7 @@ using FeatureLibrary.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.DependencyInjection;
-using Swashbuckle.AspNetCore.Swagger;
+using CoreLibrary.Database;
 
 namespace API.Extensions
 {
@@ -48,6 +48,7 @@ namespace API.Extensions
         }
 
         /// <summary>
+        /// 
         /// Configures swagger doc generation.
         /// </summary>
         /// <param name="services"></param>

@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using FeatureLibrary.Models;
+using CoreLibrary.Database;
 
 namespace FeatureLibrary.Database
 {
     /// <summary>
     /// Feature context.
     /// </summary>
-    public class FeatureContext : DbContext
+    public class FeatureContext : CoreContext<FeatureContext>
     {
         public FeatureContext(DbContextOptions<FeatureContext> options) : base(options)
         {
@@ -17,7 +18,6 @@ namespace FeatureLibrary.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-         
             modelBuilder.Entity<CodingSkill>(entity => {
                 entity.ToTable(nameof(CodingSkill));
                 entity.HasIndex(e => e.Id);

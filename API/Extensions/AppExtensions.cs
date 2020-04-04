@@ -1,5 +1,4 @@
 ﻿using API.Middlewares;
-using FeatureLibrary.Database;
 using Microsoft.AspNetCore.Builder;
 
 namespace API.Extensions
