@@ -45,7 +45,7 @@ namespace FeatureLibrary.Repositories
             return _context.Users
                 .Where(u => u.Name == auth.Username)
                 .Where(u => u.Password == auth.Password)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
         }
     }
 }

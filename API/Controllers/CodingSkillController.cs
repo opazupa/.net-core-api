@@ -5,13 +5,16 @@ using FeatureLibrary.Services;
 using CoreLibrary.Services.Persistence;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
     /// <summary>
     /// Coding skill controller.
     /// </summary>
+    [Authorize]
     [Route("api/coding-skill")]
+    [Produces("application/json")]
     [ApiController]
     public class CodingSkillController : ControllerBase
     {

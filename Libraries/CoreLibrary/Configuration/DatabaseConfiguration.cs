@@ -1,4 +1,4 @@
-namespace CoreLibrary.Database 
+namespace CoreLibrary.Configuration 
 {
     public class DatabaseConfiguration
     {

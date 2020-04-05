@@ -1,5 +1,5 @@
 ﻿using System;
-using CoreLibrary.Database;
+using CoreLibrary.Configuration;
 using CoreLibrary.Services.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,23 +28,5 @@ namespace CoreLibrary.Extensions
                 throw new NotImplementedException("Only in memory DB suppported.");
             }
         }
-
-
-        /// <summary>
-        /// Configures swagger doc generation.
-        /// </summary>
-        /// <param name="services"></param>
-        //public static void ConfigureSwagger(this IServiceCollection services)
-        //{
-        //    // Register the Swagger generator, defining 1 or more Swagger documents
-        //    //services.AddSwaggerGen(c =>
-        //    //{
-        //    //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Olli's API", Version = "v1" });
-
-        //    //    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-        //    //    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-        //    //    c.IncludeXmlComments(xmlPath);
-        //    //});
-        //}
     }
 }

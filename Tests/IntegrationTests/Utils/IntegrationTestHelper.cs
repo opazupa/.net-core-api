@@ -24,6 +24,8 @@ namespace IntegrationTests.Utils
             {
                 case HttpStatusCode.BadRequest:
                     throw new BadRequestException(msg);
+                case HttpStatusCode.Unauthorized:
+                    throw new UnauthorizedAccessException();
                 case HttpStatusCode.NotFound:
                     throw new NotFoundException(msg);
                 case HttpStatusCode.InternalServerError:

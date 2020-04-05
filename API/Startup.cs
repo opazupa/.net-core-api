@@ -1,5 +1,5 @@
 ﻿using API.Extensions;
-using CoreLibrary.Database;
+using CoreLibrary.Configuration;
 using CoreLibrary.Extensions;
 using FeatureLibrary.Database;
 using FeatureLibrary.Extensions;
@@ -15,11 +15,13 @@ namespace API
     {
         private IConfiguration Configuration { get; }
         private readonly DatabaseConfiguration _databaseConfiguration;
+        private readonly JWTConfiguration _jwtConfiguration;
 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
             _databaseConfiguration = Configuration.GetSection(nameof(DatabaseConfiguration)).Get<DatabaseConfiguration>();
+            _jwtConfiguration = Configuration.GetSection(nameof(JWTConfiguration)).Get<JWTConfiguration>();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -28,6 +30,9 @@ namespace API
             services.AddControllers();
             services.ConfigureCors();
             services.ConfigureSwagger();
+
+            services.Configure<JWTConfiguration>(Configuration.GetSection(nameof(JWTConfiguration)));
+            services.ConfigureJWTAuthentication(_jwtConfiguration);
 
             // Configure database and persistence
             services.ConfigureDatabase<FeatureContext>(_databaseConfiguration);
@@ -57,6 +62,9 @@ namespace API
             app.ConfigureMiddlewares();
             app.UseHttpsRedirection();
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

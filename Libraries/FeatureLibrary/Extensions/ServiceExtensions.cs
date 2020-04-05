@@ -1,6 +1,10 @@
-﻿using FeatureLibrary.Repositories;
+﻿using System.Text;
+using CoreLibrary.Configuration;
+using FeatureLibrary.Repositories;
 using FeatureLibrary.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FeatureLibrary.Extensions
 {
@@ -16,6 +20,32 @@ namespace FeatureLibrary.Extensions
             services.AddScoped<ICodingSkillService, CodingSkillService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+        }
+
+        /// <summary>
+        /// Configures JWT authentication.
+        /// </summary>
+        /// <param name="services"></param>
+        public static void ConfigureJWTAuthentication(this IServiceCollection services, JWTConfiguration configuration)
+        {
+            var key = Encoding.ASCII.GetBytes(configuration.Secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
         }
     }
 }

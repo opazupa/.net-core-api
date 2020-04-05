@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using FeatureLibrary.Models;
-using CoreLibrary.Database;
 
 namespace FeatureLibrary.Database
 {

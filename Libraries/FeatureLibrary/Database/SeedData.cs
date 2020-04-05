@@ -10,7 +10,7 @@ namespace FeatureLibrary.Database
         /// <summary>
         /// Admin user for testing
         /// </summary>
-        private static readonly User ADMIN_USER = new User
+        public static readonly User ADMIN_USER = new User
         {
             Id = 1,
             Name = "admin",

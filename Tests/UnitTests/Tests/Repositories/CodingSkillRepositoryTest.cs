@@ -7,8 +7,9 @@ using UnitTests.Utils.Setup;
 using static FeatureLibrary.Database.MockData;
 using Xunit;
 
-namespace UnitTests.Services
+namespace UnitTests.Repositories
 {
+    [Collection("Sequential")]
     public class CodingSkillRepositoryTest
     {
         private readonly IEnumerable<CodingSkill> testSkills = GetSkills(2);
