@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
-namespace CoreLibrary.Models
+namespace FeatureLibrary.Models
 {
     /// <summary>
     /// User model
@@ -19,6 +21,11 @@ namespace CoreLibrary.Models
         /// <summary>
         /// User password
         /// </summary>
+        [JsonIgnore]
         public string Password { get; set; }
+        /// <summary>
+        /// User skills
+        /// </summary>
+        public IEnumerable<CodingSkill> Skills { get; set; } = new List<CodingSkill>();
     }
 }

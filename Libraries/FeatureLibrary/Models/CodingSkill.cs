@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace FeatureLibrary.Models
 {
@@ -35,5 +36,9 @@ namespace FeatureLibrary.Models
         /// </summary>
         [Required]
         public CodingSkillLevel Level { get; set; }
+        /// <summary>
+        /// Skill user.
+        /// </summary>
+        public long UserId { get; set; }
     }
 }

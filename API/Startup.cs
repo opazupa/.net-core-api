@@ -1,5 +1,6 @@
 ﻿using API.Extensions;
 using CoreLibrary.Database;
+using CoreLibrary.Extensions;
 using FeatureLibrary.Database;
 using FeatureLibrary.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -27,7 +28,9 @@ namespace API
             services.AddControllers();
             services.ConfigureCors();
             services.ConfigureSwagger();
-            services.ConfigureDatabase(_databaseConfiguration);
+
+            // Configure database and persistence
+            services.ConfigureDatabase<FeatureContext>(_databaseConfiguration);
 
             // Add feature module services.
             services.ConfigureFeatureServices();

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using FeatureLibrary.Database;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.DependencyInjection;
-using CoreLibrary.Database;
+using Microsoft.OpenApi.Models;
 
 namespace API.Extensions
 {
@@ -31,24 +28,6 @@ namespace API.Extensions
         }
 
         /// <summary>
-        /// Configure database.
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="dbConfig"></param>
-        public static void ConfigureDatabase(this IServiceCollection services, DatabaseConfiguration dbConfig)
-        {
-            if (dbConfig.UseInMemoryDB)
-            {
-                services.AddDbContext<FeatureContext>(options => options.UseInMemoryDatabase(databaseName: $"Olli's {nameof(FeatureContext)} DB"));
-            }
-            else
-            {
-                // TODO not implemnented for API base.
-            }
-        }
-
-        /// <summary>
-        /// 
         /// Configures swagger doc generation.
         /// </summary>
         /// <param name="services"></param>

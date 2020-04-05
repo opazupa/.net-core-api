@@ -1,6 +1,4 @@
-﻿using CoreLibrary.Services.Persistence;
-using FeatureLibrary.Database;
-using FeatureLibrary.Repositories;
+﻿using FeatureLibrary.Repositories;
 using FeatureLibrary.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,7 +14,6 @@ namespace FeatureLibrary.Extensions
         {
             services.AddScoped<ICodingSkillRepository, CodingSkillRepository>();
             services.AddScoped<ICodingSkillService, CodingSkillService>();
-            services.AddScoped<IPersistenceService, PersistenceService<FeatureContext>>();
         }
     }
 }

@@ -7,6 +7,7 @@ namespace FeatureLibrary.Database
 {
     public static class SeedData
     {
-        public static readonly List<CodingSkill> CodingSkills = GetSkills(15).ToList();
+        public static readonly List<User> Users = GetUsers(2).ToList();
+        public static readonly List<CodingSkill> CodingSkills = GetSkills(15, Users).ToList();
     }
 }
