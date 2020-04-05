@@ -45,7 +45,7 @@ namespace API.Controllers
         [HttpGet("{id}", Name = "GetById")]
         [ProducesResponseType(typeof(CodingSkill), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(object), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Get(int id)
+        public async Task<ActionResult> GetById(int id)
         {
             var skill = await _codingSkillService.GetById(id);
             return Ok(skill);
@@ -64,7 +64,7 @@ namespace API.Controllers
             long createdSkill = await _codingSkillService.Add(skill);
             await _dbTransaction.CompleteAsync();
 
-            return CreatedAtRoute("GetById", new { Id = createdSkill }, skill);
+            return CreatedAtRoute(nameof(GetById), new { Id = createdSkill }, skill);
         }
 
         /// <summary>

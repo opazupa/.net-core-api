@@ -72,7 +72,7 @@ namespace FeatureLibrary.Repositories
         }
 
         /// <summary>
-        /// Update the specified copding skill.
+        /// Update the specified coding skill.
         /// </summary>
         /// <param name="updatedSkill">Updated skill</param>
         public void Update(CodingSkill updatedSkill)

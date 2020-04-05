@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace IntegrationTests.Utils.Setup
@@ -52,6 +54,22 @@ namespace IntegrationTests.Utils.Setup
             await IntegrationTestHelper.CheckHttpErrorResponse(getResponse);
 
             return JsonConvert.DeserializeObject<T>(await getResponse.Content.ReadAsStringAsync());
+        }
+
+        /// <summary>
+        /// Execute a POST request with given url and optional parametrs.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="url"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public async Task<T> Post<T>(string url, object content = null)
+        {
+            HttpResponseMessage postResponse = await Client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
+
+            await IntegrationTestHelper.CheckHttpErrorResponse(postResponse);
+
+            return JsonConvert.DeserializeObject<T>(await postResponse.Content.ReadAsStringAsync());
         }
     }
 }

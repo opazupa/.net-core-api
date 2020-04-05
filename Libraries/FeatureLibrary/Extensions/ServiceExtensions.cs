@@ -14,6 +14,8 @@ namespace FeatureLibrary.Extensions
         {
             services.AddScoped<ICodingSkillRepository, CodingSkillRepository>();
             services.AddScoped<ICodingSkillService, CodingSkillService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
         }
     }
 }

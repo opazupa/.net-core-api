@@ -12,6 +12,8 @@
     <Folder Include="Repositories\CodingSkills\" />
     <Folder Include="Database\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Repositories\Users\" />
+    <Folder Include="Services\UserService\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CoreLibrary\CoreLibrary.csproj" />

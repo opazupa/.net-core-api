@@ -7,7 +7,17 @@ namespace FeatureLibrary.Database
 {
     public static class SeedData
     {
-        public static readonly List<User> Users = GetUsers(2).ToList();
+        /// <summary>
+        /// Admin user for testing
+        /// </summary>
+        private static readonly User ADMIN_USER = new User
+        {
+            Id = 1,
+            Name = "admin",
+            Password = "admin"
+        };
+
+        public static readonly List<User> Users = GetUsers(2).Concat(new[] { ADMIN_USER }).ToList();
         public static readonly List<CodingSkill> CodingSkills = GetSkills(15, Users).ToList();
     }
 }

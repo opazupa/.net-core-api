@@ -14,7 +14,7 @@ namespace UnitTests.Utils.Setup
         /// </summary>
         /// <returns>In memory db context</returns>
         /// <param name="data"></param>
-        public async static Task<FeatureContext> ResetWithData(IEnumerable<CodingSkill> data)
+        public async static Task<FeatureContext> ResetWithData(IEnumerable<object> data)
         {
             var ctx = Init();
             await ctx.Database.EnsureDeletedAsync();

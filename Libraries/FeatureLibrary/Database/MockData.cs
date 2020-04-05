@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Bogus;
 using FeatureLibrary.Models;
 
@@ -7,16 +6,6 @@ namespace FeatureLibrary.Database
 {
     public static class MockData
     {
-        /// <summary>
-        /// Admin user for testing
-        /// </summary>
-        private static readonly User ADMIN_USER = new User
-        {
-            Id = 1,
-            Name = "admin",
-            Password = "admin"
-        };
-
         /// <summary>
         /// Get seed skills 
         /// </summary>
@@ -49,8 +38,7 @@ namespace FeatureLibrary.Database
                 .RuleFor(s => s.Name, n => n.Internet.UserName())
                 .RuleFor(s => s.Password, s => s.Internet.Password());
 
-            return users.Generate(amount)
-                .Concat(new[] { ADMIN_USER });
+            return users.Generate(amount);
         }
     }
 }

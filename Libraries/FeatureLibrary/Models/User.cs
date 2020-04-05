@@ -19,7 +19,7 @@ namespace FeatureLibrary.Models
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// User password
+        /// User password. TODO hash passwords with salt to store it!
         /// </summary>
         [JsonIgnore]
         public string Password { get; set; }
