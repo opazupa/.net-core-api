@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System.IO;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using FeatureLibrary.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
-using System;
-using System.IO;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
+using static FeatureLibrary.Database.SeedData;
 
 namespace IntegrationTests.Utils.Setup
 {
@@ -36,9 +37,7 @@ namespace IntegrationTests.Utils.Setup
                             })
                             .Start()
                             .GetTestClient();
-
         #endregion
-
 
         /// <summary>
         /// Execute a GET request with given url and optional parametrs.
@@ -49,7 +48,9 @@ namespace IntegrationTests.Utils.Setup
         /// <returns></returns>
         public async Task<T> Get<T>(string url, object param = null)
         {
-            HttpResponseMessage getResponse = await Client.GetAsync(url + IntegrationTestHelper.ToQueryString(param));
+            HttpResponseMessage getResponse = await
+                (await Client.LoginAsAdmin())
+                .GetAsync(url + IntegrationTestHelper.ToQueryString(param));
 
             await IntegrationTestHelper.CheckHttpErrorResponse(getResponse);
 
@@ -61,15 +62,34 @@ namespace IntegrationTests.Utils.Setup
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="url"></param>
-        /// <param name="param"></param>
+        /// <param name="content"></param>
         /// <returns></returns>
         public async Task<T> Post<T>(string url, object content = null)
         {
-            HttpResponseMessage postResponse = await Client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
+            HttpResponseMessage postResponse = await
+                (await Client.LoginAsAdmin())
+                .PostAsync(url, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
 
             await IntegrationTestHelper.CheckHttpErrorResponse(postResponse);
 
             return JsonConvert.DeserializeObject<T>(await postResponse.Content.ReadAsStringAsync());
+        }
+
+        /// <summary>
+        /// Execute a DELETE request with given url and optional parametrs.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public async Task<T> Delete<T>(string url)
+        {
+            HttpResponseMessage deleteResponse = await
+                (await Client.LoginAsAdmin())
+                .DeleteAsync(url);
+
+            await IntegrationTestHelper.CheckHttpErrorResponse(deleteResponse);
+
+            return JsonConvert.DeserializeObject<T>(await deleteResponse.Content.ReadAsStringAsync());
         }
     }
 }

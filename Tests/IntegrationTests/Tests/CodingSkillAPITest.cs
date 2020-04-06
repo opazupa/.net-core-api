@@ -14,10 +14,27 @@ namespace IntegrationTests
     /// <summary>
     /// Integration tests for the coding skill API.
     /// </summary>
+    [Collection("Sequential")]
     public class CodingSkillAPITest : BaseIntegrationTest
     {
         private readonly string API_URL = "api/coding-skill";
-        private readonly CodingSkill testSkill = SeedData.CodingSkills.First(); 
+        private readonly CodingSkill testSkill = SeedData.CodingSkills.First();
+
+        [Fact]
+        public async Task AddAndDeleteCodingSkill()
+        {
+            var newSkill = MockData.GetSkills(1).First();
+            CodingSkill skill = await Post<CodingSkill>($"{API_URL}", newSkill);
+
+            Assert.True(skill != null, $"Skill shouldn't be null.");
+            Assert.True(skill.Id != 0, $"Skill shouldn't be 0.");
+            Assert.True(skill.UserId == SeedData.ADMIN_USER.Id, $"Skill userId should match to admin Id.");
+            Assert.True(skill.Name == newSkill.Name, $"Coding skill name doesn't match.");
+            Assert.True(skill.Level == newSkill.Level, $"Coding skill level doesn't match.");
+
+            await Delete<string>($"{API_URL}/{skill.Id}");
+            NotFoundException ex = await Assert.ThrowsAsync<NotFoundException>(() => Get<CodingSkill>($"{API_URL}/{skill.Id}"));
+        }
 
         [Fact]
         public async Task GetCodingSkillsByFilter()

@@ -2,8 +2,12 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using CoreLibrary.Exceptions;
+using FeatureLibrary.Models;
+using Newtonsoft.Json;
+using static FeatureLibrary.Database.SeedData;
 
 namespace IntegrationTests.Utils
 {
@@ -48,6 +52,26 @@ namespace IntegrationTests.Utils
                 .GetProperties()
                 .Where(p => p.GetValue(obj) != null)
                 .Select(p => $"{Uri.EscapeDataString(p.Name)}={Uri.EscapeDataString(p.GetValue(obj).ToString())}"));
+        }
+
+        /// <summary>
+        /// Login and set bearer token by admin creds
+        /// </summary>
+        /// <returns></returns>
+        public async static Task<HttpClient> LoginAsAdmin(this HttpClient client)
+        {
+            var adminAuth = new Authentication
+            {
+                Username = ADMIN_USER.Name,
+                Password = ADMIN_USER.Password
+            };
+
+            HttpResponseMessage authResponse = await client.PostAsync("api/auth/login", new StringContent(JsonConvert.SerializeObject(adminAuth), Encoding.UTF8, "application/json"));
+            var token = JsonConvert.DeserializeObject<AuthenticationResult>(await authResponse.Content.ReadAsStringAsync()).Token;
+
+            client.DefaultRequestHeaders.Remove("Authorization");
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+            return client;
         }
     }
 }

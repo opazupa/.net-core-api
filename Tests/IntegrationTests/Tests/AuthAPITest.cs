@@ -14,6 +14,7 @@ namespace IntegrationTests
     /// <summary>
     /// Integration tests for the auth API.
     /// </summary>
+    [Collection("Sequential")]
     public class AuthAPITest : BaseIntegrationTest
     {
         private readonly string API_URL = "api/auth";

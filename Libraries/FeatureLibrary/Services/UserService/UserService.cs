@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CoreLibrary.Configuration;
 using CoreLibrary.Exceptions;
+using static FeatureLibrary.Extensions.ClaimExtensions;
 using FeatureLibrary.Models;
 using FeatureLibrary.Repositories;
 using Microsoft.Extensions.Options;
@@ -62,7 +63,8 @@ namespace FeatureLibrary.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                    new Claim(ClaimTypes.Name, user.Name),
+                    new Claim(USER_ID, user.Id.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

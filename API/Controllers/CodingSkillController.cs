@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using CoreLibrary.Services.Persistence;
+using FeatureLibrary.Extensions;
 using FeatureLibrary.Models;
 using FeatureLibrary.Services;
-using CoreLibrary.Services.Persistence;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -64,6 +65,7 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Post([FromBody] CodingSkill skill)
         {
+            skill.UserId = User.GetId();
             long createdSkill = await _codingSkillService.Add(skill);
             await _dbTransaction.CompleteAsync();
 
