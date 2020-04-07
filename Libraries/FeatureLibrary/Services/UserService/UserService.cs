@@ -10,6 +10,7 @@ using FeatureLibrary.Models;
 using FeatureLibrary.Repositories;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using FeatureLibrary.Models.Entities;
 
 namespace FeatureLibrary.Services
 {
@@ -51,11 +52,16 @@ namespace FeatureLibrary.Services
         /// <returns></returns>
         public async Task<long> CreateUser(Authentication auth)
         {
-            var user = await _userRepository.Add(auth);
+            var user = new UserEntity {
+                UserName = auth.Username,
+                Password = auth.Password
+            };
+
+            user = await _userRepository.Add(user);
             return user.Id;
         }
 
-        private AuthenticationResult GenerateToken(User user)
+        private AuthenticationResult GenerateToken(UserEntity user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtConfiguration.Secret);
@@ -63,7 +69,7 @@ namespace FeatureLibrary.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Name),
+                    new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(USER_ID, user.Id.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),

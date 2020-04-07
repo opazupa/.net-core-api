@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using API.Models;
+using AutoMapper;
 using CoreLibrary.Services.Persistence;
+using FeatureLibrary.Models.Entities;
 using FeatureLibrary.Extensions;
 using FeatureLibrary.Models;
 using FeatureLibrary.Services;
@@ -21,11 +24,13 @@ namespace API.Controllers
     {
         private readonly ICodingSkillService _codingSkillService;
         private readonly IPersistenceService _dbTransaction;
+        private readonly IMapper _mapper;
 
-        public CodingSkillController(ICodingSkillService codingSkillService, IPersistenceService persistenceService)
+        public CodingSkillController(ICodingSkillService codingSkillService, IPersistenceService persistenceService, IMapper mapper)
         {
             _codingSkillService = codingSkillService;
             _dbTransaction = persistenceService;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -34,11 +39,11 @@ namespace API.Controllers
         /// <param name="filter"></param>
         /// <returns>Coding skills matching to filter values.</returns>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<CodingSkill>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<CodingSkill>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get([FromQuery] CodingSkillFilter filter)
         {
-            var skills =  await _codingSkillService.GetByFilter(filter);
-            return Ok(skills);
+            var entities = await _codingSkillService.GetByFilter(filter);
+            return Ok(_mapper.Map<IEnumerable<CodingSkill>>(entities));
         }
 
         /// <summary>
@@ -51,25 +56,24 @@ namespace API.Controllers
         [ProducesResponseType(typeof(object), StatusCodes.Status404NotFound)]
         public async Task<ActionResult> GetById(int id)
         {
-            var skill = await _codingSkillService.GetById(id);
-            return Ok(skill);
+            var entity = await _codingSkillService.GetById(id);
+            return Ok(_mapper.Map<CodingSkill>(entity));
         }
 
         /// <summary>
         /// Post new coding skill.
         /// </summary>
         /// <param name="skill"></param>
-        /// <returns>The newly created coding skill item</returns>
+        /// <returns>The newly created coding skill id</returns>
         [HttpPost]
-        [ProducesResponseType(typeof(CodingSkill), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(long), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Post([FromBody] CodingSkill skill)
+        public async Task<ActionResult> Post([FromBody] NewSkill skill)
         {
-            skill.UserId = User.GetId();
-            long createdSkill = await _codingSkillService.Add(skill);
+            long createdSkillId = await _codingSkillService.Add(_mapper.Map<CodingSkillEntity>(skill), User.GetId());
             await _dbTransaction.CompleteAsync();
 
-            return CreatedAtRoute(nameof(GetById), new { Id = createdSkill }, skill);
+            return StatusCode(StatusCodes.Status201Created, createdSkillId);
         }
 
         /// <summary>
@@ -81,13 +85,14 @@ namespace API.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(CodingSkill), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(object), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Put(long id, [FromBody] CodingSkill skill)
+        public async Task<ActionResult> Put(long id, [FromBody] ModifiedSkill skill)
         {
-            await _codingSkillService.Update(id, skill);
+            await _codingSkillService.Update(id, _mapper.Map<CodingSkillEntity>(skill));
             await _dbTransaction.CompleteAsync();
 
-            var updatedSkill = await _codingSkillService.GetById(id);
-            return Ok(updatedSkill);
+            var updatedEntity = await _codingSkillService.GetById(id);
+            return Ok(_mapper.Map<CodingSkill>(updatedEntity));
+
         }
 
         /// <summary>

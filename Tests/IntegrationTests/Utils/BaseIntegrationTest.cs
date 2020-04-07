@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
-using static FeatureLibrary.Database.SeedData;
+using static FeatureLibrary.Models.SeedData;
 
 namespace IntegrationTests.Utils.Setup
 {

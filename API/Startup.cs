@@ -1,7 +1,9 @@
 ﻿using API.Extensions;
+using API.Models;
+using AutoMapper;
 using CoreLibrary.Configuration;
 using CoreLibrary.Extensions;
-using FeatureLibrary.Database;
+using FeatureLibrary.Models;
 using FeatureLibrary.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +30,7 @@ namespace API
         public virtual void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddAutoMapper(c => c.AddProfile<AutoMapping>(), typeof(Startup));
             services.ConfigureCors();
             services.ConfigureSwagger();
 

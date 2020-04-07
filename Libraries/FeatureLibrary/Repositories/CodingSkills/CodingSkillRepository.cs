@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using FeatureLibrary.Database;
 using FeatureLibrary.Models;
+using FeatureLibrary.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace FeatureLibrary.Repositories
@@ -25,16 +25,17 @@ namespace FeatureLibrary.Repositories
         /// </summary>
         /// <returns></returns>
         /// <param name="newSkill">New skill</param>
-        public async Task Add(CodingSkill newSkill)
+        public async Task<CodingSkillEntity> Add(CodingSkillEntity newSkill)
         {
             await _context.CodingSkills.AddAsync(newSkill);
+            return newSkill;
         }
 
         /// <summary>
         /// Delete the specified deletedSkill.
         /// </summary>
         /// <param name="deletedSkill">Deleted skill</param>
-        public void Delete(CodingSkill deletedSkill)
+        public void Delete(CodingSkillEntity deletedSkill)
         {
             _context.CodingSkills.Remove(deletedSkill);
         }
@@ -44,7 +45,7 @@ namespace FeatureLibrary.Repositories
         /// </summary>
         /// <returns>List of skills matching given filter.</returns>
         /// <param name="filter">Filter</param>
-        public async Task<IEnumerable<CodingSkill>> GetByFilter(CodingSkillFilter filter)
+        public async Task<IEnumerable<CodingSkillEntity>> GetByFilter(CodingSkillFilter filter)
         {
             var codingSkills = _context.CodingSkills.AsQueryable();
 
@@ -66,7 +67,7 @@ namespace FeatureLibrary.Repositories
         /// </summary>
         /// <returns>Found skill</returns>
         /// <param name="id">Id/param>
-        public async Task<CodingSkill> GetById(long id)
+        public async Task<CodingSkillEntity> GetById(long id)
         {
             return await _context.CodingSkills.Where(skill => skill.Id == id).SingleOrDefaultAsync();
         }
@@ -75,7 +76,7 @@ namespace FeatureLibrary.Repositories
         /// Update the specified coding skill.
         /// </summary>
         /// <param name="updatedSkill">Updated skill</param>
-        public void Update(CodingSkill updatedSkill)
+        public void Update(CodingSkillEntity updatedSkill)
         {
             _context.CodingSkills.Update(updatedSkill);
         }
