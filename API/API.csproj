@@ -24,6 +24,9 @@
 <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 </PackageReference>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="GraphQL" Version="2.4.0" />
+    <PackageReference Include="GraphQL.Server.Ui.Playground" Version="3.4.0" />
+    <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="3.4.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +35,9 @@
     <Folder Include="Models\" />
     <Folder Include="Models\CodingSkills\" />
     <Folder Include="Models\Users\" />
+    <Folder Include="GraphQL\" />
+    <Folder Include="GraphQL\Schemas\" />
+    <Folder Include="GraphQL\Types\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Libraries\FeatureLibrary\FeatureLibrary.csproj" />

@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using GraphQL.Server.Ui.Playground;
+using API.GraphQL;
+using GraphQL.Server;
 
 namespace API
 {
@@ -27,7 +30,7 @@ namespace API
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public virtual void ConfigureServices(IServiceCollection services)
+        public virtual void ConfigureServices(IServiceCollection services, IWebHostEnvironment env)
         {
             services.AddControllers();
             services.AddAutoMapper(c => c.AddProfile<AutoMapping>(), typeof(Startup));
@@ -42,6 +45,7 @@ namespace API
 
             // Add feature module services.
             services.ConfigureFeatureServices();
+            services.ConfigureGraphQL(env);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +55,8 @@ namespace API
             {
                 app.UseDeveloperExceptionPage();
                 app.ConfigureSwagger();
+                // use graphql-playground middleware at default url /ui/playground
+                app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
 
                 using var serviceScope = app.ApplicationServices.CreateScope();
                 // Reset and seed the database.
@@ -62,6 +68,7 @@ namespace API
                 app.UseHsts();
             }
 
+            app.UseGraphQL<APISchema>();
             app.ConfigureMiddlewares();
             app.UseHttpsRedirection();
             app.UseRouting();
