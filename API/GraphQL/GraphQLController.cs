@@ -66,10 +66,10 @@ namespace API.Controllers
 
             if (result.Errors?.Count() > 0)
             {
-                throw new BadRequestException(string.Join("\n", result.Errors));
+                return BadRequest(result);
             }
 
-            return Ok(new { data = result.Data });
+            return Ok(result);
         }
     }
 }

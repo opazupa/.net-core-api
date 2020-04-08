@@ -1,18 +1,18 @@
 ﻿using API.Extensions;
+using API.GraphQL;
 using API.Models;
 using AutoMapper;
 using CoreLibrary.Configuration;
 using CoreLibrary.Extensions;
-using FeatureLibrary.Models;
 using FeatureLibrary.Extensions;
+using FeatureLibrary.Models;
+using GraphQL.Server.Ui.Playground;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using GraphQL.Server.Ui.Playground;
-using API.GraphQL;
-using GraphQL.Server;
+using Newtonsoft.Json;
 
 namespace API
 {
@@ -34,7 +34,9 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public virtual void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
             services.AddAutoMapper(c => c.AddProfile<AutoMapping>(), typeof(Startup));
             services.ConfigureCors();
             services.ConfigureSwagger();

@@ -68,7 +68,13 @@ namespace FeatureLibrary.Services
         /// <returns></returns>
         public async Task<UserEntity> GetById(long userId)
         {
-            return await _userRepository.GetById(userId);
+            var user =  await _userRepository.GetById(userId);
+
+            if (user == null)
+            {
+                throw new ArgumentException($"User with id {userId} not found.");
+            }
+            return user;
         }
 
         /// <summary>
