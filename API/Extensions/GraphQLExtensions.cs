@@ -2,8 +2,6 @@
 using API.GraphQL;
 using GraphQL;
 using GraphQL.Server;
-using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Hosting;
 
 namespace API.Extensions
 {
@@ -14,7 +12,8 @@ namespace API.Extensions
         /// Configure GraphQL.
         /// </summary>
         /// <param name="services"></param>
-        public static void ConfigureGraphQL(this IServiceCollection services, IWebHostEnvironment env)
+        /// <param name="debugMode"></param>
+        public static void ConfigureGraphQL(this IServiceCollection services, bool debugMode = false)
         {
             // Queries and mutations
             services.AddSingleton<APIQuery>();
@@ -27,8 +26,8 @@ namespace API.Extensions
             // Common ones
             services.AddGraphQL(opt =>
             {
-                opt.EnableMetrics = env.IsDevelopment();
-                opt.ExposeExceptions = env.IsDevelopment();
+                opt.EnableMetrics = debugMode;
+                opt.ExposeExceptions = debugMode;
             });
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
         }

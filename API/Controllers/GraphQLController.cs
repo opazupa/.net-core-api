@@ -1,8 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using CoreLibrary.Exceptions;
 using GraphQL;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace API.Controllers
 {
@@ -10,11 +13,24 @@ namespace API.Controllers
     /// Graphql controller.
     /// </summary>
     [Authorize]
-    [Route("api/graphql")]
+    [Route("graphql")]
     [Produces("application/json")]
     [ApiController]
-    public class GraphQLController
+    [ApiExplorerSettings(IgnoreApi = true)]
+    public class GraphQLController : ControllerBase
     {
+
+        #region GraphQL query
+
+        public class GraphQLQuery
+        {
+            public string OperationName { get; set; }
+            public string NamedQuery { get; set; }
+            public string Query { get; set; }
+            public JObject Variables { get; set; } //https://github.com/graphql-dotnet/graphql-dotnet/issues/389
+        }
+        #endregion
+
         private readonly IDocumentExecuter _documentExecuter;
         private readonly ISchema _schema;
 
@@ -24,23 +40,31 @@ namespace API.Controllers
             _documentExecuter = documentExecuter;
         }
 
+        /// <summary>
+        /// Endpoint for Graph QL API
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] GraphQLQuery query)
         {
-            if (query == null) { throw new ArgumentNullException(nameof(query)); }
-            var inputs = query.Variables.ToInputs();
-            var executionOptions = new ExecutionOptions
+            if (query == null)
             {
-                Schema = _schema,
-                Query = query.Query,
-                Inputs = inputs
-            };
+                throw new ArgumentNullException(nameof(query));
+            }
 
-            var result = await _documentExecuter.ExecuteAsync(executionOptions).ConfigureAwait(false);
+            var result = await _documentExecuter
+                .ExecuteAsync(new ExecutionOptions
+                {
+                    Schema = _schema,
+                    Query = query.Query,
+                    Inputs = query.Variables.ToInputs()
+                })
+                .ConfigureAwait(false);
 
             if (result.Errors?.Count > 0)
             {
-                return BadRequest(result);
+                throw new BadRequestException(string.Join("\n", result.Errors));
             }
 
             return Ok(result);

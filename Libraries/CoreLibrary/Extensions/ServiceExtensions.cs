@@ -3,11 +3,21 @@ using CoreLibrary.Configuration;
 using CoreLibrary.Services.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace CoreLibrary.Extensions
 {
     public static class ServiceConfiguration
     {
+        /// <summary>
+        /// Logger factory
+        /// </summary>
+        private static readonly ILoggerFactory DBLoggerFactory = LoggerFactory.Create(builder => builder
+            .AddFilter((category, level) =>
+                category == DbLoggerCategory.Database.Command.Name
+                && level == LogLevel.Information)
+            .AddConsole());
+
         /// <summary>
         /// Configure database.
         /// </summary>
@@ -20,7 +30,9 @@ namespace CoreLibrary.Extensions
 
             if (dbConfig.UseInMemoryDB)
             {
-                services.AddDbContext<T>(options => options.UseInMemoryDatabase(databaseName: $"Olli's {nameof(T)} DB"));
+                services.AddDbContext<T>(options => options
+                    .UseInMemoryDatabase(databaseName: $"Olli's {nameof(T)} DB")
+                    .UseLoggerFactory(DBLoggerFactory));
             }
             else
             {

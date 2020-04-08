@@ -21,16 +21,18 @@ namespace API
         private IConfiguration Configuration { get; }
         private readonly DatabaseConfiguration _databaseConfiguration;
         private readonly JWTConfiguration _jwtConfiguration;
+        private readonly IWebHostEnvironment _env;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
             _databaseConfiguration = Configuration.GetSection(nameof(DatabaseConfiguration)).Get<DatabaseConfiguration>();
             _jwtConfiguration = Configuration.GetSection(nameof(JWTConfiguration)).Get<JWTConfiguration>();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public virtual void ConfigureServices(IServiceCollection services, IWebHostEnvironment env)
+        public virtual void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
             services.AddAutoMapper(c => c.AddProfile<AutoMapping>(), typeof(Startup));
@@ -45,7 +47,9 @@ namespace API
 
             // Add feature module services.
             services.ConfigureFeatureServices();
-            services.ConfigureGraphQL(env);
+
+            // Configure GraphQL
+            services.ConfigureGraphQL(debugMode: !_env.IsProduction());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
