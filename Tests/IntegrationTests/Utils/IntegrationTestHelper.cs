@@ -3,10 +3,10 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using CoreLibrary.Exceptions;
 using FeatureLibrary.Models;
-using Newtonsoft.Json;
 using static FeatureLibrary.Models.SeedData;
 
 namespace IntegrationTests.Utils
@@ -66,12 +66,12 @@ namespace IntegrationTests.Utils
                 Password = ADMIN_USER.Password
             };
 
-            HttpResponseMessage authResponse = await client.PostAsync("api/auth/login", new StringContent(JsonConvert.SerializeObject(adminAuth), Encoding.UTF8, "application/json"));
-            var token = JsonConvert.DeserializeObject<AuthenticationResult>(await authResponse.Content.ReadAsStringAsync()).Token;
+            HttpResponseMessage authResponse = await client.PostAsync("api/auth/login", new StringContent(JsonSerializer.Serialize(adminAuth), Encoding.UTF8, "application/json"));
+            var token = JsonSerializer.Deserialize<AuthenticationResult>(await authResponse.Content.ReadAsStringAsync()).Token;
 
             client.DefaultRequestHeaders.Remove("Authorization");
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
             return client;
         }
     }
-}
+}   

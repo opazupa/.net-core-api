@@ -61,6 +61,19 @@ namespace FeatureLibrary.Services
             return user.Id;
         }
 
+        /// <summary>
+        /// Get user by id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<UserEntity> GetById(long userId)
+        {
+            return await _userRepository.GetById(userId);
+        }
+
+        /// <summary>
+        /// Generate JWT token for user
+        /// </summary>
         private AuthenticationResult GenerateToken(UserEntity user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

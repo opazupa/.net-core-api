@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using API.GraphQL;
 using GraphQL;
 using GraphQL.Server;
 
-namespace API.Extensions
+namespace API.GraphQL
 {
     public static class GraphQLExtensions
     {
@@ -15,21 +14,19 @@ namespace API.Extensions
         /// <param name="debugMode"></param>
         public static void ConfigureGraphQL(this IServiceCollection services, bool debugMode = false)
         {
-            // Queries and mutations
-            services.AddSingleton<APIQuery>();
-            services.AddSingleton<APIMutation>();
+            // Schema
+            services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
+            services.AddScoped<APISchema>();
 
-            // Types
-            services.AddSingleton<UserType>();
-            services.AddSingleton<CodingSkillType>();
-
-            // Common ones
+            // Common ones and types
+            services.AddScoped<IDocumentExecuter, DocumentExecuter>();
             services.AddGraphQL(opt =>
             {
                 opt.EnableMetrics = debugMode;
                 opt.ExposeExceptions = debugMode;
-            });
-            services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
+            })
+            .AddUserContextBuilder(httpContext => httpContext.User)
+            .AddGraphTypes(ServiceLifetime.Scoped);
         }
     }
 }

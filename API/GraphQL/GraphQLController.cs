@@ -1,8 +1,8 @@
-﻿using System;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using API.GraphQL;
 using CoreLibrary.Exceptions;
 using GraphQL;
-using GraphQL.Types;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -10,11 +10,10 @@ using Newtonsoft.Json.Linq;
 namespace API.Controllers
 {
     /// <summary>
-    /// Graphql controller.
+    /// Graphql controller. 
     /// </summary>
-    [Authorize]
+    //[Authorize]
     [Route("graphql")]
-    [Produces("application/json")]
     [ApiController]
     [ApiExplorerSettings(IgnoreApi = true)]
     public class GraphQLController : ControllerBase
@@ -22,19 +21,22 @@ namespace API.Controllers
 
         #region GraphQL query
 
+        /// <summary>
+        /// Graph QL Query model
+        /// </summary>
         public class GraphQLQuery
         {
             public string OperationName { get; set; }
             public string NamedQuery { get; set; }
             public string Query { get; set; }
-            public JObject Variables { get; set; } //https://github.com/graphql-dotnet/graphql-dotnet/issues/389
+            public JObject Variables { get; set; }
         }
         #endregion
 
         private readonly IDocumentExecuter _documentExecuter;
-        private readonly ISchema _schema;
+        private readonly APISchema _schema;
 
-        public GraphQLController(ISchema schema, IDocumentExecuter documentExecuter)
+        public GraphQLController(APISchema schema, IDocumentExecuter documentExecuter)
         {
             _schema = schema;
             _documentExecuter = documentExecuter;
@@ -50,7 +52,7 @@ namespace API.Controllers
         {
             if (query == null)
             {
-                throw new ArgumentNullException(nameof(query));
+                throw new BadRequestException($"{nameof(GraphQLQuery)} must be provided.");
             }
 
             var result = await _documentExecuter
@@ -62,12 +64,12 @@ namespace API.Controllers
                 })
                 .ConfigureAwait(false);
 
-            if (result.Errors?.Count > 0)
+            if (result.Errors?.Count() > 0)
             {
                 throw new BadRequestException(string.Join("\n", result.Errors));
             }
 
-            return Ok(result);
+            return Ok(new { data = result.Data });
         }
     }
 }

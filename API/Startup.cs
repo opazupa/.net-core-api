@@ -72,7 +72,6 @@ namespace API
                 app.UseHsts();
             }
 
-            app.UseGraphQL<APISchema>();
             app.ConfigureMiddlewares();
             app.UseHttpsRedirection();
             app.UseRouting();

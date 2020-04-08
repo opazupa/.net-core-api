@@ -30,6 +30,16 @@ namespace FeatureLibrary.Repositories
         }
 
         /// <summary>
+        /// Get user by id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<UserEntity> GetById(long userId)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        }
+
+        /// <summary>
         /// Verify user with matching username and password
         /// TODO don't use in production
         /// </summary>
