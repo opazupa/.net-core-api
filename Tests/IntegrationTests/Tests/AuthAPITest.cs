@@ -41,7 +41,7 @@ namespace IntegrationTests
                 Username = u.UserName
             }).First();
 
-            await Assert.ThrowsAsync<BadRequestException>(() => Post<AuthenticationResult>($"{API_URL}/login", newUser));
+            await Assert.ThrowsAsync<UnauthorizedException>(() => Post<AuthenticationResult>($"{API_URL}/login", newUser));
         }
 
         [Fact]

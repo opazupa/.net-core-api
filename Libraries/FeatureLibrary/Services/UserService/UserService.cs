@@ -39,7 +39,7 @@ namespace FeatureLibrary.Services
 
             if (user == null)
             {
-                throw new BadRequestException($"Username {auth.Username} or password incorrect.");
+                throw new UnauthorizedException($"Username {auth.Username} or password not found or incorrect.");
             }
 
             return GenerateToken(user);

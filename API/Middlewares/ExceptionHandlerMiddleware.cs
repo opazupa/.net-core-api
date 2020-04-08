@@ -48,6 +48,10 @@ namespace API.Middlewares
             {
                 code = HttpStatusCode.NotFound;
             }
+            else if (ex is UnauthorizedException)
+            {
+                code = HttpStatusCode.Unauthorized;
+            }
             else
             {
                 code = HttpStatusCode.InternalServerError;
