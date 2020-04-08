@@ -1,5 +1,10 @@
 ﻿using API.Middlewares;
+using CoreLibrary.Configuration;
+using FeatureLibrary.Models;
+using GraphQL.Server.Ui.Playground;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace API.Extensions
 {
@@ -9,10 +14,41 @@ namespace API.Extensions
     public static class AppExtensions
     {
         /// <summary>
+        /// Configure middlewares.
+        /// </summary>
+        /// <param name="app"></param>
+        public static void ConfigureMiddlewares(this IApplicationBuilder app) => app.UseMiddleware<ExceptionHandlerMiddleware>();
+
+        /// <summary>
+        /// Configure development environment
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="databaseConfiguration"></param>
+        public static void ConfigureDevelopmentEnvironment(this IApplicationBuilder app, DatabaseConfiguration databaseConfiguration)
+        {
+            app.UseDeveloperExceptionPage();
+            app.ConfigureSwagger();
+            // use graphql-playground middleware at default url /ui/playground
+            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
+
+            using var serviceScope = app.ApplicationServices.CreateScope();
+            if (databaseConfiguration.UseInMemoryDB)
+            {
+                // Reset and seed the database.
+                serviceScope.ServiceProvider.GetService<FeatureContext>().Database.EnsureCreated();
+            }
+            else
+            {
+                // Migrate the database.
+                serviceScope.ServiceProvider.GetService<FeatureContext>().Database.Migrate();
+            }
+        }
+
+        /// <summary>
         /// Configure swagger UI.
         /// </summary>
         /// <param name="app"></param>
-        public static void ConfigureSwagger(this IApplicationBuilder app)
+        private static void ConfigureSwagger(this IApplicationBuilder app)
         {
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
@@ -24,15 +60,6 @@ namespace API.Extensions
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Olli's API V1");
                 c.RoutePrefix = string.Empty;
             });
-        }
-
-        /// <summary>
-        /// Configure middlewares.
-        /// </summary>
-        /// <param name="app"></param>
-        public static void ConfigureMiddlewares(this IApplicationBuilder app)
-        {
-            app.UseMiddleware<ExceptionHandlerMiddleware>();
         }
     }
 }

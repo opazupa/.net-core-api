@@ -11,6 +11,7 @@ using FeatureLibrary.Repositories;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using FeatureLibrary.Models.Entities;
+using System.Collections.Generic;
 
 namespace FeatureLibrary.Services
 {
@@ -75,6 +76,15 @@ namespace FeatureLibrary.Services
                 throw new ArgumentException($"User with id {userId} not found.");
             }
             return user;
+        }
+
+        /// <summary>
+        /// Get all users
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<UserEntity>> GetAll()
+        {
+            return await _userRepository.GetAll();
         }
 
         /// <summary>

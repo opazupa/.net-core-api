@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FeatureLibrary.Models;
 using FeatureLibrary.Models.Entities;
@@ -38,6 +39,16 @@ namespace FeatureLibrary.Repositories
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
         }
+
+        /// <summary>
+        /// Get all users
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<UserEntity>> GetAll()
+        {
+            return await _context.Users.ToListAsync();
+        }
+
 
         /// <summary>
         /// Verify user with matching username and password

@@ -11,6 +11,7 @@ namespace API.GraphQL
 
         public APIQuery(IUserService userService)
         {
+            // Users
             FieldAsync<UserType>(
                 Name = "User",
                 arguments: new QueryArguments {
@@ -19,6 +20,14 @@ namespace API.GraphQL
                 resolve: async context => {
                     return await userService.GetById(context.GetArgument<long>(ID));
                 });
+            FieldAsync<ListGraphType<UserType>>(
+                Name = "Users",
+                resolve: async context => {
+                    return await userService.GetAll();
+                });
+
+            // Coding skills
+
         }
     }
 }

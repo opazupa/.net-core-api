@@ -1,4 +1,5 @@
-﻿using API.Extensions;
+﻿using System;
+using API.Extensions;
 using API.GraphQL;
 using API.Models;
 using AutoMapper;
@@ -6,7 +7,6 @@ using CoreLibrary.Configuration;
 using CoreLibrary.Extensions;
 using FeatureLibrary.Extensions;
 using FeatureLibrary.Models;
-using GraphQL.Server.Ui.Playground;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -39,7 +39,7 @@ namespace API
 
             services.AddAutoMapper(c => c.AddProfile<AutoMapping>(), typeof(Startup));
             services.ConfigureCors();
-            services.ConfigureSwagger();
+            services.AddSwaggerDoc();
 
             services.Configure<JWTConfiguration>(Configuration.GetSection(nameof(JWTConfiguration)));
             services.ConfigureJWTAuthentication(_jwtConfiguration);
@@ -59,19 +59,13 @@ namespace API
         {
             if (env.IsDevelopment() || env.EnvironmentName.Equals("Testing"))
             {
-                app.UseDeveloperExceptionPage();
-                app.ConfigureSwagger();
-                // use graphql-playground middleware at default url /ui/playground
-                app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
-
-                using var serviceScope = app.ApplicationServices.CreateScope();
-                // Reset and seed the database.
-                serviceScope.ServiceProvider.GetService<FeatureContext>().Database.EnsureCreatedAsync();
+                app.ConfigureDevelopmentEnvironment(_databaseConfiguration);
             }
             else
             {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+                throw new NotImplementedException("Production configuration not yet supported.");
             }
 
             app.ConfigureMiddlewares();
