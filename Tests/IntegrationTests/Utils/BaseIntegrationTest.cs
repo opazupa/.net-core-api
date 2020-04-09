@@ -1,12 +1,12 @@
 ﻿using System.IO;
 using System.Net.Http;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 
 namespace IntegrationTests.Utils.Setup
 {
@@ -52,7 +52,7 @@ namespace IntegrationTests.Utils.Setup
 
             await IntegrationTestHelper.CheckHttpErrorResponse(getResponse);
 
-            return JsonSerializer.Deserialize<T>(await getResponse.Content.ReadAsStringAsync());
+            return JsonConvert.DeserializeObject<T>(await getResponse.Content.ReadAsStringAsync());
         }
 
         /// <summary>
@@ -66,11 +66,11 @@ namespace IntegrationTests.Utils.Setup
         {
             HttpResponseMessage postResponse = await
                 (await Client.LoginAsAdmin())
-                .PostAsync(url, new StringContent(JsonSerializer.Serialize(content), Encoding.UTF8, "application/json"));
+                .PostAsync(url, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
 
             await IntegrationTestHelper.CheckHttpErrorResponse(postResponse);
 
-            return JsonSerializer.Deserialize<T>(await postResponse.Content.ReadAsStringAsync());
+            return JsonConvert.DeserializeObject<T>(await postResponse.Content.ReadAsStringAsync());
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace IntegrationTests.Utils.Setup
 
             await IntegrationTestHelper.CheckHttpErrorResponse(deleteResponse);
 
-            return JsonSerializer.Deserialize<T>(await deleteResponse.Content.ReadAsStringAsync());
+            return JsonConvert.DeserializeObject<T>(await deleteResponse.Content.ReadAsStringAsync());
         }
     }
 }
