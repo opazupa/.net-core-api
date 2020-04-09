@@ -87,10 +87,9 @@ namespace API.Controllers
         [ProducesResponseType(typeof(object), StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Put(long id, [FromBody] ModifiedSkill skill)
         {
-            await _codingSkillService.Update(id, _mapper.Map<CodingSkillEntity>(skill));
+            var updatedEntity = await _codingSkillService.Update(id, _mapper.Map<CodingSkillEntity>(skill));
             await _dbTransaction.CompleteAsync();
 
-            var updatedEntity = await _codingSkillService.GetById(id);
             return Ok(_mapper.Map<CodingSkill>(updatedEntity));
 
         }

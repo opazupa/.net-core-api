@@ -3,7 +3,7 @@
 namespace API.GraphQL.Inputs
 {
     /// <summary>
-    /// Authentication iput type
+    /// Authentication input type
     /// </summary>
     public class AuthenticationInputType : InputObjectGraphType
     {

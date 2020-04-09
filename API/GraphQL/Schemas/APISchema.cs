@@ -13,7 +13,7 @@ namespace API.GraphQL.Schemas
         public APISchema(IDependencyResolver resolver) : base (resolver)
         {
             Query = resolver.Resolve<APIQuery>();
-            //Mutation = resolver.Resolve<APIMutation>();
+            Mutation = resolver.Resolve<APIMutation>();
         }
     }
 }

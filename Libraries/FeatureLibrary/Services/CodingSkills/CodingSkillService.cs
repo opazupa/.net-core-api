@@ -99,7 +99,7 @@ namespace FeatureLibrary.Services
         /// <returns></returns>
         /// <param name="id">Id</param>
         /// <param name="modifiedSkill">Updated skill</param>
-        public async Task Update(long id, CodingSkillEntity modifiedSkill)
+        public async Task<CodingSkillEntity> Update(long id, CodingSkillEntity modifiedSkill)
         {
             if (string.IsNullOrWhiteSpace(modifiedSkill.Name) || modifiedSkill.Level == 0)
             {
@@ -115,6 +115,8 @@ namespace FeatureLibrary.Services
             skill.Level = modifiedSkill.Level;
             skill.Name = modifiedSkill.Name;
             _codingSkillRepository.Update(skill);
+            
+            return skill;
         }
     }
 }
