@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using API.GraphQL.Types;
 using FeatureLibrary.Models;
 using FeatureLibrary.Models.Entities;
 using FeatureLibrary.Services;
 using GraphQL.Types;
 
-namespace API.GraphQL
+namespace API.GraphQL.Queries
 {
     public class APIQuery : ObjectGraphType
     {

@@ -4,7 +4,6 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
-    <DockerComposeProjectPath>../../docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,9 +19,6 @@
     <Folder Include="Tests\" />
     <Folder Include="Utils\" />
     <Folder Include="Utils\Setup\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\API\API.csproj" />

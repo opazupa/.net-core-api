@@ -1,7 +1,7 @@
 ﻿using FeatureLibrary.Models.Entities;
 using GraphQL.Types;
 
-namespace API.GraphQL
+namespace API.GraphQL.Types
 {
     /// <summary>
     /// Coding skill type

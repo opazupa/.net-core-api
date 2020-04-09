@@ -1,7 +1,9 @@
-﻿using GraphQL;
+﻿using API.GraphQL.Mutations;
+using API.GraphQL.Queries;
+using GraphQL;
 using GraphQL.Types;
 
-namespace API.GraphQL
+namespace API.GraphQL.Schemas
 {
     /// <summary>
     /// GraphQL schema for the API

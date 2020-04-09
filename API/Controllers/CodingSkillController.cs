@@ -70,10 +70,10 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Post([FromBody] NewSkill skill)
         {
-            long createdSkillId = await _codingSkillService.Add(_mapper.Map<CodingSkillEntity>(skill), User.GetId());
+            var createdSkill = await _codingSkillService.Add(_mapper.Map<CodingSkillEntity>(skill), User.GetId());
             await _dbTransaction.CompleteAsync();
 
-            return StatusCode(StatusCodes.Status201Created, createdSkillId);
+            return StatusCode(StatusCodes.Status201Created, createdSkill.Id);
         }
 
         /// <summary>

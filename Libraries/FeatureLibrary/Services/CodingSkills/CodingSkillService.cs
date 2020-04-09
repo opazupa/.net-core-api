@@ -24,7 +24,7 @@ namespace FeatureLibrary.Services
         /// <returns>The added coding skill id</returns>
         /// <param name="newSkill">New skill</param>
         /// <param name="userId"></param>
-        public async Task<long> Add(CodingSkillEntity newSkill, long? userId)
+        public async Task<CodingSkillEntity> Add(CodingSkillEntity newSkill, long? userId)
         {
             if (string.IsNullOrWhiteSpace(newSkill.Name) || newSkill.Level == 0 || userId == null)
             {
@@ -37,8 +37,7 @@ namespace FeatureLibrary.Services
                 Level = newSkill.Level,
                 UserId = userId.Value
             };
-            skill = await _codingSkillRepository.Add(skill);
-            return skill.Id;
+            return await _codingSkillRepository.Add(skill);
         }
 
         /// <summary>

@@ -35,7 +35,7 @@ namespace API.Extensions
             if (databaseConfiguration.UseInMemoryDB)
             {
                 // Reset and seed the database.
-                serviceScope.ServiceProvider.GetService<FeatureContext>().Database.EnsureCreated();
+                serviceScope.ServiceProvider.GetService<FeatureContext>().Database.EnsureCreatedAsync();
             }
             else
             {

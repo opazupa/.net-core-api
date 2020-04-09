@@ -1,6 +1,7 @@
 ﻿using System;
 using API.Extensions;
-using API.GraphQL;
+using API.GraphQL.Extensions;
+using API.GraphQL.Schemas;
 using API.Models;
 using AutoMapper;
 using CoreLibrary.Configuration;
@@ -13,7 +14,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
 
 namespace API
 {
@@ -35,8 +35,7 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public virtual void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+            services.AddControllers();
 
             services.AddAutoMapper(c => c.AddProfile<AutoMapping>(), typeof(Startup));
             services.ConfigureCors();
@@ -69,6 +68,7 @@ namespace API
                 throw new NotImplementedException("Production configuration not yet supported.");
             }
 
+            app.UseGraphQL<APISchema>();
             app.ConfigureMiddlewares();
             app.UseHttpsRedirection();
             app.UseRouting();
@@ -76,7 +76,6 @@ namespace API
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseGraphQL<APISchema>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

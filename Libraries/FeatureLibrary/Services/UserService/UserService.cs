@@ -51,7 +51,7 @@ namespace FeatureLibrary.Services
         /// </summary>
         /// <param name="auth"></param>
         /// <returns></returns>
-        public async Task<long> CreateUser(Authentication auth)
+        public async Task<UserEntity> CreateUser(Authentication auth)
         {
             var user = new UserEntity {
                 UserName = auth.Username,
@@ -59,7 +59,7 @@ namespace FeatureLibrary.Services
             };
 
             user = await _userRepository.Add(user);
-            return user.Id;
+            return user;
         }
 
         /// <summary>

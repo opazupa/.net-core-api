@@ -8,7 +8,7 @@ namespace FeatureLibrary.Services
     public interface IUserService
     {
         Task<AuthenticationResult> Authenticate(Authentication auth);
-        Task<long> CreateUser(Authentication auth);
+        Task<UserEntity> CreateUser(Authentication auth);
         Task<IEnumerable<UserEntity>> GetAll();
         Task<UserEntity> GetById(long userId);
     }

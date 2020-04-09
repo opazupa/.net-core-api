@@ -1,9 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using API.GraphQL.Schemas;
 using GraphQL;
 using GraphQL.Server;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace API.GraphQL
+namespace API.GraphQL.Extensions
 {
     public static class GraphQLExtensions
     {

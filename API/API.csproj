@@ -39,8 +39,9 @@
     <Folder Include="GraphQL\Schemas\" />
     <Folder Include="GraphQL\Types\" />
     <Folder Include="GraphQL\Queries\" />
-    <Folder Include="GraphQL\Utils\" />
+    <Folder Include="GraphQL\Extensions\" />
     <Folder Include="GraphQL\Mutations\" />
+    <Folder Include="GraphQL\Inputs\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Libraries\FeatureLibrary\FeatureLibrary.csproj" />

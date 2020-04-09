@@ -2,7 +2,7 @@
 using FeatureLibrary.Services;
 using GraphQL.Types;
 
-namespace API.GraphQL
+namespace API.GraphQL.Types
 {
     /// <summary>
     /// User type
