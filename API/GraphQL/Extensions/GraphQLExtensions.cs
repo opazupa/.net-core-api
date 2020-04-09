@@ -33,7 +33,8 @@ namespace API.GraphQL.Extensions
                 opt.ExposeExceptions = debugMode;
             })
             .AddUserContextBuilder(httpContext => httpContext.User)
-            .AddGraphTypes(ServiceLifetime.Scoped);
+            .AddGraphTypes(ServiceLifetime.Scoped)
+            .AddDataLoader();
         }
     }
 }

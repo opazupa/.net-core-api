@@ -4,6 +4,8 @@ using CoreLibrary.Exceptions;
 using FeatureLibrary.Models.Entities;
 using FeatureLibrary.Models;
 using FeatureLibrary.Repositories;
+using System.Linq;
+using System.Threading;
 
 namespace FeatureLibrary.Services
 {
@@ -91,6 +93,18 @@ namespace FeatureLibrary.Services
         public async Task<IEnumerable<CodingSkillEntity>> GetByUserId(long userId)
         {
             return await _codingSkillRepository.GetByUserId(userId);
+        }
+
+        /// <summary>
+        /// Get coding skills by user ids
+        /// </summary>
+        /// <param name="userIds"></param>
+        /// <returns>Lookup of coding skills for users.</returns>
+        public async Task<ILookup<long, CodingSkillEntity>> GetSkillsByUserIds(IEnumerable<long> userIds)
+        {
+            // Get all by empty filter
+            var skills = await _codingSkillRepository.GetByFilter(new CodingSkillFilter());
+            return skills.ToLookup(s => s.Id, s => s);
         }
 
         /// <summary>

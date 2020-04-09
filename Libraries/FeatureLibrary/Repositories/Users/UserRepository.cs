@@ -46,7 +46,9 @@ namespace FeatureLibrary.Repositories
         /// <returns></returns>
         public async Task<IEnumerable<UserEntity>> GetAll()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users
+                .OrderBy(u => u.UserName)
+                .ToListAsync();
         }
 
 
@@ -61,7 +63,6 @@ namespace FeatureLibrary.Repositories
             return _context.Users
                 .Where(u => u.UserName == auth.Username)
                 .Where(u => u.Password == auth.Password)
-                .Include(u => u.Skills)
                 .SingleOrDefaultAsync();
         }
     }
