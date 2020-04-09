@@ -85,6 +85,16 @@ namespace FeatureLibrary.Services
         }
 
         /// <summary>
+        /// Get skill by User Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CodingSkillEntity>> GetByUserId(long userId)
+        {
+            return await _codingSkillRepository.GetByUserId(userId);
+        }
+
+        /// <summary>
         /// Update the specified coding skill.
         /// </summary>
         /// <returns></returns>

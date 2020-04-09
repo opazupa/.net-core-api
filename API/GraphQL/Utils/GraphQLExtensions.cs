@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using GraphQL;
 using GraphQL.Server;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace API.GraphQL
 {
@@ -20,6 +21,11 @@ namespace API.GraphQL
 
             // Common ones and types
             services.AddScoped<IDocumentExecuter, DocumentExecuter>();
+
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
             services.AddGraphQL(opt =>
             {
                 opt.EnableMetrics = debugMode;

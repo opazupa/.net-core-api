@@ -7,6 +7,7 @@ using CoreLibrary.Configuration;
 using CoreLibrary.Extensions;
 using FeatureLibrary.Extensions;
 using FeatureLibrary.Models;
+using GraphQL.Server;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -75,6 +76,7 @@ namespace API
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseGraphQL<APISchema>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

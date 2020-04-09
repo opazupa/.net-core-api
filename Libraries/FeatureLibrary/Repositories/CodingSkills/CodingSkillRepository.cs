@@ -66,10 +66,24 @@ namespace FeatureLibrary.Repositories
         /// Get the coding skill by id.
         /// </summary>
         /// <returns>Found skill</returns>
-        /// <param name="id">Id/param>
+        /// <param name="id"></param>
         public async Task<CodingSkillEntity> GetById(long id)
         {
-            return await _context.CodingSkills.Where(skill => skill.Id == id).SingleOrDefaultAsync();
+            return await _context.CodingSkills
+                .Where(skill => skill.Id == id)
+                .SingleOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// Get the coding skills by user id.
+        /// </summary>
+        /// <returns>Found skill</returns>
+        /// <param name="userId"></param>
+        public async Task<IEnumerable<CodingSkillEntity>> GetByUserId(long userId)
+        {
+            return await _context.CodingSkills
+                .Where(skill => skill.UserId == userId)
+                .ToListAsync();
         }
 
         /// <summary>

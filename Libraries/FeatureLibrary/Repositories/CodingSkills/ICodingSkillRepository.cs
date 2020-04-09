@@ -12,5 +12,6 @@ namespace FeatureLibrary.Repositories
         Task<CodingSkillEntity> Add(CodingSkillEntity newSkill);
         void Update(CodingSkillEntity updatedSkill);
         void Delete(CodingSkillEntity deletedSkill);
+        Task<IEnumerable<CodingSkillEntity>> GetByUserId(long userId);
     }
 }
