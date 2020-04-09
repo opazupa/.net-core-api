@@ -10,9 +10,10 @@ using Newtonsoft.Json.Linq;
 namespace API.Controllers
 {
     /// <summary>
-    /// Graphql controller. 
+    /// Graphql controller.
     /// </summary>
-    //[Authorize]
+    // TODO remove 
+    // [Authorize]
     [Route("graphql")]
     [ApiController]
     [ApiExplorerSettings(IgnoreApi = true)]

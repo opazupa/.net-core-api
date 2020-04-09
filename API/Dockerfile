@@ -1,12 +1,11 @@
-FROM microsoft/dotnet:3.1-aspnetcore-runtime AS base
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM microsoft/dotnet:3.1-sdk AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /src
 COPY API/API.csproj API/
-COPY FeatureLibrary/FeatureLibrary.csproj FeatureLibrary/
-COPY CoreLibrary/CoreLibrary.csproj CoreLibrary/
+COPY Libraries Libraries/
 RUN dotnet restore API/API.csproj
 COPY . .
 WORKDIR /src/API
