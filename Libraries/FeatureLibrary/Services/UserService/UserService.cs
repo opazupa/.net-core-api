@@ -108,8 +108,10 @@ namespace FeatureLibrary.Services
 
             return new AuthenticationResult()
             {
-                UserId = user.Id,
-                Token = tokenHandler.WriteToken(token)
+                UserName = user.UserName,
+                TokenType = TokenType.Bearer,
+                Token = tokenHandler.WriteToken(token),
+                ExpiresIn = token.ValidTo
             };
         }
     }

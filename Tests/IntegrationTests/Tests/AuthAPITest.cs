@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CoreLibrary.Exceptions;
 using FeatureLibrary.Models;
@@ -28,8 +29,10 @@ namespace IntegrationTests
             };
 
             var result = await Post<AuthenticationResult>($"{API_URL}/login", auth);
-            Assert.True(result.UserId == admin.Id);
+            Assert.True(result.UserName == admin.UserName);
             Assert.True(result.Token != null);
+            Assert.True(result.TokenType == TokenType.Bearer);
+            Assert.True(result.ExpiresIn.Date == DateTime.UtcNow.AddDays(7).Date);
         }
 
         [Fact]
