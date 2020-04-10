@@ -11,7 +11,7 @@ namespace FeatureLibrary.Models.Entities
     {
         Beginner = 1,
         Ok = 2,
-        GettingThingsDone = 3,
+        Getting_Things_Done = 3,
         Master = 4
     }
 

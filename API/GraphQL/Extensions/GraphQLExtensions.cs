@@ -1,11 +1,7 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
-using API.GraphQL.Queries;
-using API.GraphQL.Types;
-using FeatureLibrary.Extensions;
+﻿using API.GraphQL.Queries;
 using HotChocolate;
+using HotChocolate.AspNetCore.Authorization;
 using HotChocolate.Execution.Configuration;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace API.GraphQL.Extensions
@@ -20,11 +16,15 @@ namespace API.GraphQL.Extensions
         /// <param name="debugMode"></param>
         public static void ConfigureGraphQL(this IServiceCollection services, bool debugMode = false)
         {
+            // Dataloader
             services.AddDataLoaderRegistry();
+
+            // Schema and common configs
             services.AddGraphQL(sp =>
                 SchemaBuilder.New()
                     .AddServices(sp)
                     .AddQueryType<APIQuery>()
+                    .AddAuthorizeDirectiveType()
                     .Create(),
                 new QueryExecutionOptions
                 {
