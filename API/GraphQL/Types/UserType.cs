@@ -1,25 +1,33 @@
-﻿using FeatureLibrary.Models.Entities;
+﻿using System.Threading;
+using FeatureLibrary.Models.Entities;
+using FeatureLibrary.Repositories;
 using FeatureLibrary.Services;
-using GraphQL.DataLoader;
-using GraphQL.Types;
+using HotChocolate.Resolvers;
+using HotChocolate.Types;
 
 namespace API.GraphQL.Types
 {
     /// <summary>
     /// User type
     /// </summary>
-    public class UserType : ObjectGraphType<UserEntity>
+    public class UserType : ObjectType<UserEntity>
     {
-        public UserType(ICodingSkillService codingSkillService, IDataLoaderContextAccessor dataLoader)
+        protected override void Configure(IObjectTypeDescriptor<UserEntity> descriptor)
         {
             Name = "User";
-            Field(x => x.Id, type: typeof(NonNullGraphType<IdGraphType>)).Description("User Id");
-            Field(x => x.UserName).Description("Username");
-            Field(x => x.Skills, type: typeof(ListGraphType<CodingSkillType>))
+            descriptor.Field(x => x.Id)
+                .Type<NonNullType<IdType>>()
+                .Description("User Id");
+            descriptor.Field(x => x.UserName)
+                .Description("Username");
+            descriptor.Field(x => x.Skills)
+                .Type<ListType<CodingSkillType>>()
                 .Description("User coding skills")
-                .ResolveAsync(context => {
-                    var loader = dataLoader.Context.GetOrAddCollectionBatchLoader<long, CodingSkillEntity>("GetSkillsByUserIds", codingSkillService.GetSkillsByUserIds);
-                    return loader.LoadAsync(context.Source.Id);
+                .Resolver(async ctx =>
+                {
+                    var id = ctx.Parent<UserEntity>().Id;
+                    var skills =  await ctx.GroupDataLoader<long, CodingSkillEntity>("GetSkillsByUserIds", keys => ctx.Service<ICodingSkillService>().GetSkillsByUserIds(keys)).LoadAsync(ctx.Parent<UserEntity>().Id, new CancellationToken());
+                    return skills;
                 });
         }
     }

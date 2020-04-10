@@ -1,7 +1,8 @@
 ﻿using API.Middlewares;
 using CoreLibrary.Configuration;
 using FeatureLibrary.Models;
-using GraphQL.Server.Ui.Playground;
+using HotChocolate.AspNetCore;
+using HotChocolate.AspNetCore.Playground;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,8 +29,13 @@ namespace API.Extensions
         {
             app.UseDeveloperExceptionPage();
             app.ConfigureSwagger();
-            // use graphql-playground middleware at default url /ui/playground
-            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
+            // use graphql-playground middleware at default url /playground
+            app.UsePlayground(new PlaygroundOptions
+            {
+                EnableSubscription = false,
+                QueryPath = "/graphql",
+                Path = "/playground"
+            }) ;
 
             using var serviceScope = app.ApplicationServices.CreateScope();
             if (databaseConfiguration.UseInMemoryDB)

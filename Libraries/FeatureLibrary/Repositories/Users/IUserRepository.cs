@@ -2,6 +2,7 @@
 using FeatureLibrary.Models.Entities;
 using FeatureLibrary.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FeatureLibrary.Repositories
 {
@@ -9,6 +10,7 @@ namespace FeatureLibrary.Repositories
     {
         Task<UserEntity> Add(UserEntity userEntity);
         Task<IEnumerable<UserEntity>> GetAll();
+        IQueryable<UserEntity> GetAsQueryable();
         Task<UserEntity> GetById(long userId);
         Task<UserEntity> Verify(Authentication auth);
     }

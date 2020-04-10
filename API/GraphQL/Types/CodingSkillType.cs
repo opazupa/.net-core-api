@@ -1,19 +1,31 @@
 ﻿using FeatureLibrary.Models.Entities;
-using GraphQL.Types;
+using HotChocolate.Types;
 
 namespace API.GraphQL.Types
 {
     /// <summary>
     /// Coding skill type
     /// </summary>
-    public class CodingSkillType : ObjectGraphType<CodingSkillEntity>
+    public class CodingSkillType : ObjectType<CodingSkillEntity>
     {
-        public CodingSkillType()
+        protected override void Configure(IObjectTypeDescriptor<CodingSkillEntity> descriptor)
         {
             Name = "CodingSkill";
-            Field(x => x.Id, type: typeof(NonNullGraphType<IdGraphType>)).Description("Coding skill Id");
-            Field(x => x.Name).Description("Coding skill name");
-            Field(x => x.Level, type: typeof(NonNullGraphType<CodingSkillLevelType>)).Description("Coding skill level");
+
+            descriptor
+                .Field(x => x.Id)
+                .Type<IdType>()
+                .Description("Coding skill Id");
+
+            descriptor
+                .Field(x => x.Name)
+                .Type<StringType>()
+                .Description("Coding skill name");
+
+            descriptor
+                .Field(x => x.Level)
+                .Type<CodingSkillLevelType>()
+                .Description("Coding skill level");
         }
     }
 }

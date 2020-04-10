@@ -1,14 +1,13 @@
 ﻿using System;
 using API.Extensions;
 using API.GraphQL.Extensions;
-using API.GraphQL.Schemas;
 using API.Models;
 using AutoMapper;
 using CoreLibrary.Configuration;
 using CoreLibrary.Extensions;
 using FeatureLibrary.Extensions;
 using FeatureLibrary.Models;
-using GraphQL.Server;
+using HotChocolate.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -68,7 +67,6 @@ namespace API
                 throw new NotImplementedException("Production configuration not yet supported.");
             }
 
-            app.UseGraphQL<APISchema>();
             app.ConfigureMiddlewares();
             app.UseHttpsRedirection();
             app.UseRouting();
@@ -76,6 +74,8 @@ namespace API
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseWebSockets();
+            app.UseGraphQL("/graphql");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

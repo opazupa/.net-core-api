@@ -63,6 +63,15 @@ namespace FeatureLibrary.Repositories
         }
 
         /// <summary>
+        /// Get all skills as IQueryable
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<CodingSkillEntity> GetAsQueryable()
+        {
+            return _context.CodingSkills;
+        }
+
+        /// <summary>
         /// Get the coding skill by id.
         /// </summary>
         /// <returns>Found skill</returns>

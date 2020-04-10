@@ -51,6 +51,14 @@ namespace FeatureLibrary.Repositories
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Get all users as IQueryable
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<UserEntity> GetAsQueryable()
+        {
+            return _context.Users;
+        }
 
         /// <summary>
         /// Verify user with matching username and password

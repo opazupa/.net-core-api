@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using FeatureLibrary.Models.Entities;
 using FeatureLibrary.Models;
+using System.Linq;
 
 namespace FeatureLibrary.Repositories
 {
@@ -13,5 +14,6 @@ namespace FeatureLibrary.Repositories
         void Update(CodingSkillEntity updatedSkill);
         void Delete(CodingSkillEntity deletedSkill);
         Task<IEnumerable<CodingSkillEntity>> GetByUserId(long userId);
+        IQueryable<CodingSkillEntity> GetAsQueryable();
     }
 }
