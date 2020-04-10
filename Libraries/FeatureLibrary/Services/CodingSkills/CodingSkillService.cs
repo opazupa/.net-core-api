@@ -100,11 +100,11 @@ namespace FeatureLibrary.Services
         /// </summary>
         /// <param name="userIds"></param>
         /// <returns>Lookup of coding skills for users.</returns>
-        public async Task<ILookup<long, CodingSkillEntity>> GetSkillsByUserIds(IEnumerable<long> userIds)
+        public async Task<ILookup<long, CodingSkillEntity>> GetByUserIds(IEnumerable<long> userIds)
         {
             // Get all by empty filter
             var skills = await _codingSkillRepository.GetByFilter(new CodingSkillFilter());
-            return skills.ToLookup(s => s.Id, s => s);
+            return skills.ToLookup(s => s.UserId);
         }
 
         /// <summary>

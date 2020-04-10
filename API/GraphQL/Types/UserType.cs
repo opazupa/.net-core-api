@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using FeatureLibrary.Models.Entities;
-using FeatureLibrary.Repositories;
 using FeatureLibrary.Services;
 using HotChocolate.Resolvers;
 using HotChocolate.Types;
@@ -25,9 +24,8 @@ namespace API.GraphQL.Types
                 .Description("User coding skills")
                 .Resolver(async ctx =>
                 {
-                    var id = ctx.Parent<UserEntity>().Id;
-                    var skills =  await ctx.GroupDataLoader<long, CodingSkillEntity>("GetSkillsByUserIds", keys => ctx.Service<ICodingSkillService>().GetSkillsByUserIds(keys)).LoadAsync(ctx.Parent<UserEntity>().Id, new CancellationToken());
-                    return skills;
+                    var loader = ctx.GroupDataLoader<long, CodingSkillEntity>("GetSkillsByUserIds", keys => ctx.Service<ICodingSkillService>().GetByUserIds(keys));
+                    return await loader.LoadAsync(ctx.Parent<UserEntity>().Id, new CancellationToken());
                 });
         }
     }

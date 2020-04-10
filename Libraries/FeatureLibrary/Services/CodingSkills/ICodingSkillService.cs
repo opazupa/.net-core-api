@@ -15,6 +15,6 @@ namespace FeatureLibrary.Services
         Task<CodingSkillEntity> Update(long id, CodingSkillEntity modifiedSkill);
         Task Delete(long id);
         Task<IEnumerable<CodingSkillEntity>> GetByUserId(long userId);
-        Task<ILookup<long, CodingSkillEntity>> GetSkillsByUserIds(IEnumerable<long> userIds);
+        Task<ILookup<long, CodingSkillEntity>> GetByUserIds(IEnumerable<long> userIds);
     }
 }

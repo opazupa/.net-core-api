@@ -25,32 +25,11 @@ namespace API.GraphQL.Extensions
                 SchemaBuilder.New()
                     .AddServices(sp)
                     .AddQueryType<APIQuery>()
-                    .ModifyOptions(opt => opt.UseXmlDocumentation = true)
-                    .AddType<UserType>()
                     .Create(),
                 new QueryExecutionOptions
                 {
-                    //Defines that the execution engine shall be forced to execute serially
-                    //since DbContext is not thread-safe.
-                    ForceSerialExecution = true,
                     IncludeExceptionDetails = debugMode
-                }) ;
-
-            // Provide the user for auth token
-            //services.AddQueryRequestInterceptor((context, builder, ct) =>
-            //{
-            //    if (context.User.Identity.IsAuthenticated)
-            //    {
-            //        builder.AddProperty("userId", context.User.GetId());
-            //    }
-            //    return Task.CompletedTask;
-            //});
-
+                });
         }
-
-        //private static string AddTypes(this ISchemaBuilder builder)
-        //{
-        //    builder.AddTypes()
-        //}
     }
 }
