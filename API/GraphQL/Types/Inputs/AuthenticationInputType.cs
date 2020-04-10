@@ -1,6 +1,6 @@
 ﻿using GraphQL.Types;
 
-namespace API.GraphQL.Inputs
+namespace API.GraphQL.Types.Inputs
 {
     /// <summary>
     /// Authentication input type

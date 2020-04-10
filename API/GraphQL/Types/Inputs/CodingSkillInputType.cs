@@ -1,8 +1,7 @@
-﻿using API.GraphQL.Types;
-using FeatureLibrary.Models.Entities;
+﻿using FeatureLibrary.Models.Entities;
 using GraphQL.Types;
 
-namespace API.GraphQL.Inputs
+namespace API.GraphQL.Types.Inputs
 {
     /// <summary>
     /// Coding skill input type

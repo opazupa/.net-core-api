@@ -67,7 +67,6 @@ namespace IntegrationTests.Utils
             };
 
             HttpResponseMessage authResponse = await client.PostAsync("api/auth/login", new StringContent(JsonConvert.SerializeObject(adminAuth), Encoding.UTF8, "application/json"));
-            var a = await authResponse.Content.ReadAsStringAsync();
             var token = JsonConvert.DeserializeObject<AuthenticationResult>(await authResponse.Content.ReadAsStringAsync()).Token;
 
             client.DefaultRequestHeaders.Remove("Authorization");

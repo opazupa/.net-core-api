@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using API.GraphQL.Inputs;
+using API.GraphQL.Types.Inputs;
 using API.GraphQL.Types;
 using CoreLibrary.Services.Persistence;
 using FeatureLibrary.Extensions;
