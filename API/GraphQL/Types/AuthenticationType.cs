@@ -1,18 +1,33 @@
-﻿//using FeatureLibrary.Models;
-//using GraphQL.Types;
+﻿using FeatureLibrary.Models;
+using HotChocolate.Types;
 
-//namespace API.GraphQL.Types
-//{
-//    /// <summary>
-//    /// Authentication type
-//    /// </summary>
-//    public class AuthenticationType : ObjectGraphType<AuthenticationResult>
-//    {
-//        public AuthenticationType()
-//        {
-//            Name = "Auth";
-//            Field(x => x.UserId, type: typeof(NonNullGraphType<IdGraphType>)).Description("User Id");
-//            Field(x => x.Token).Description("User JWT token");
-//        }
-//    }
-//}
+namespace API.GraphQL.Types
+{
+    /// <summary>
+    /// Auhtentication type
+    /// </summary>
+    public class AuhtenticationType : ObjectType<AuthenticationResult>
+    {
+        protected override void Configure(IObjectTypeDescriptor<AuthenticationResult> descriptor)
+        {
+            Name = "Authentication";
+
+            descriptor
+                .Field(x => x.UserName)
+                .Description("Username");
+
+            descriptor
+                .Field(x => x.Token)
+                .Description("Auth token");
+
+            descriptor
+                .Field(x => x.TokenType)
+                .Type<NonNullType<AuthTokenType>>()
+                .Description("Auth token type");
+
+            descriptor
+                .Field(x => x.ExpiresIn)
+                .Description("Token expiration date");
+        }
+    }
+}

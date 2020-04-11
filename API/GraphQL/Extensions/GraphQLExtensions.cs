@@ -1,6 +1,6 @@
-﻿using API.GraphQL.Queries;
-using HotChocolate;
-using HotChocolate.AspNetCore.Authorization;
+﻿using API.GraphQL.Mutations;
+using API.GraphQL.Queries;
+using HotChocolate; 
 using HotChocolate.Execution.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,6 +24,7 @@ namespace API.GraphQL.Extensions
                 SchemaBuilder.New()
                     .AddServices(sp)
                     .AddQueryType<APIQuery>()
+                    .AddMutationType<APIMutation>()
                     .AddAuthorizeDirectiveType()
                     .Create(),
                 new QueryExecutionOptions

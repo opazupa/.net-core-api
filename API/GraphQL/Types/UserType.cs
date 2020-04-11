@@ -14,11 +14,13 @@ namespace API.GraphQL.Types
         protected override void Configure(IObjectTypeDescriptor<UserEntity> descriptor)
         {
             Name = "User";
+            descriptor.BindFieldsExplicitly();
             descriptor.Field(x => x.Id)
-                .Type<NonNullType<IdType>>()
                 .Description("User Id");
+                
             descriptor.Field(x => x.UserName)
                 .Description("Username");
+
             descriptor.Field(x => x.Skills)
                 .Type<ListType<CodingSkillType>>()
                 .Description("User coding skills")

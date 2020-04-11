@@ -14,17 +14,16 @@ namespace API.GraphQL.Types
 
             descriptor
                 .Field(x => x.Id)
-                .Type<IdType>()
                 .Description("Coding skill Id");
 
             descriptor
                 .Field(x => x.Name)
-                .Type<StringType>()
+                .Type<NonNullType<StringType>>()
                 .Description("Coding skill name");
 
             descriptor
                 .Field(x => x.Level)
-                .Type<CodingSkillLevelType>()
+                .Type<NonNullType<CodingSkillLevelType>>()
                 .Description("Coding skill level");
         }
     }
