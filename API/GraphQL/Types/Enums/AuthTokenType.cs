@@ -1,7 +1,7 @@
 ﻿using FeatureLibrary.Models;
 using HotChocolate.Types;
 
-namespace API.GraphQL.Types
+namespace API.GraphQL.Types.Enums
 {
     /// <summary>
     /// Auth Token type

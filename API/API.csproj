@@ -30,6 +30,8 @@
     <PackageReference Include="HotChocolate.Types.Filters" Version="10.4.1" />
     <PackageReference Include="HotChocolate.Subscriptions.InMemory" Version="10.4.1" />
     <PackageReference Include="HotChocolate.Types.Sorting" Version="10.4.1" />
+    <PackageReference Include="HotChocolate.AspNetCore.Subscriptions" Version="10.4.1" />
+    <PackageReference Include="HotChocolate.Language" Version="10.4.1" />
   </ItemGroup>
 
   <ItemGroup>

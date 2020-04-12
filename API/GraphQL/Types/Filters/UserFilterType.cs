@@ -1,7 +1,7 @@
 ﻿using FeatureLibrary.Models.Entities;
 using HotChocolate.Types.Filters;
 
-namespace API.GraphQL.Types
+namespace API.GraphQL.Types.Filters
 {   
     /// <summary>
     /// User filter type

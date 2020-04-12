@@ -1,7 +1,7 @@
 ﻿using FeatureLibrary.Models.Entities;
 using HotChocolate.Types.Sorting;
 
-namespace API.GraphQL.Types
+namespace API.GraphQL.Types.Sorts
 {
     
     /// <summary>

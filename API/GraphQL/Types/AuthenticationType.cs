@@ -1,4 +1,5 @@
-﻿using FeatureLibrary.Models;
+﻿using API.GraphQL.Types.Enums;
+using FeatureLibrary.Models;
 using HotChocolate.Types;
 
 namespace API.GraphQL.Types

@@ -1,4 +1,6 @@
 ﻿using API.GraphQL.Types;
+using API.GraphQL.Types.Filters;
+using API.GraphQL.Types.Sorts;
 using FeatureLibrary.Repositories;
 using HotChocolate.Types;
 
@@ -19,7 +21,7 @@ namespace API.GraphQL.Queries
              * Users
              */
             descriptor
-                .Field("User")
+                .Field("user")
                 .Authorize()
                 .Argument(ID, arg => arg.Type<NonNullType<LongType>>().Description("User Id"))
                 .Type<UserType>()
@@ -28,7 +30,7 @@ namespace API.GraphQL.Queries
                     return await ctx.Service<IUserRepository>().GetById(ctx.Argument<long>(ID));
                 });
             descriptor
-                .Field("Users")
+                .Field("users")
                 .Authorize()
                 .Type<ListType<UserType>>()
                 .Resolver(ctx =>
@@ -42,7 +44,7 @@ namespace API.GraphQL.Queries
             *  Coding skills
             */
             descriptor
-                .Field("CodingSkill")
+                .Field("codingSkill")
                 .Authorize()
                 .Argument(ID, arg => arg.Type<NonNullType<LongType>>().Description("Coding skill Id"))
                 .Type<CodingSkillType>()
@@ -51,7 +53,7 @@ namespace API.GraphQL.Queries
                     return await ctx.Service<ICodingSkillRepository>().GetById(ctx.Argument<long>(ID));
                 });
             descriptor
-                .Field("CodingSkills")
+                .Field("codingSkills")
                 .Authorize()
                 .Type<ListType<CodingSkillType>>()
                 .Resolver(ctx =>
