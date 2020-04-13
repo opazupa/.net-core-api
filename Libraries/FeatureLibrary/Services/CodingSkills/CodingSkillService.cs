@@ -4,8 +4,6 @@ using CoreLibrary.Exceptions;
 using FeatureLibrary.Models.Entities;
 using FeatureLibrary.Models;
 using FeatureLibrary.Repositories;
-using System.Linq;
-using System.Threading;
 
 namespace FeatureLibrary.Services
 {
@@ -56,7 +54,7 @@ namespace FeatureLibrary.Services
                 throw new NotFoundException($"Skill with id {id} not found.");
             }
 
-            _codingSkillRepository.Delete(deletedSkill);
+            await _codingSkillRepository.Delete(deletedSkill);
             return deletedSkill;
         }
 
@@ -117,7 +115,7 @@ namespace FeatureLibrary.Services
 
             skill.Level = modifiedSkill.Level;
             skill.Name = modifiedSkill.Name;
-            _codingSkillRepository.Update(skill);
+            await _codingSkillRepository.Update(skill);
             
             return skill;
         }

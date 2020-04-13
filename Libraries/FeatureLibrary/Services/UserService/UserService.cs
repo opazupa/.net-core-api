@@ -1,17 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using CoreLibrary.Configuration;
 using CoreLibrary.Exceptions;
-using static FeatureLibrary.Extensions.ClaimExtensions;
 using FeatureLibrary.Models;
+using FeatureLibrary.Models.Entities;
 using FeatureLibrary.Repositories;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using FeatureLibrary.Models.Entities;
-using System.Collections.Generic;
+using static FeatureLibrary.Extensions.ClaimExtensions;
 
 namespace FeatureLibrary.Services
 {
