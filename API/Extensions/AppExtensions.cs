@@ -38,7 +38,7 @@ namespace API.Extensions
             }) ;
 
             using var serviceScope = app.ApplicationServices.CreateScope();
-            if (databaseConfiguration.UseInMemoryDB)
+            if (databaseConfiguration.UseInMemory)
             {
                 // Reset and seed the database.
                 serviceScope.ServiceProvider.GetService<FeatureContext>().Database.EnsureCreatedAsync();

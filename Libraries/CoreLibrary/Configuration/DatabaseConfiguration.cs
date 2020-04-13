@@ -2,6 +2,7 @@ namespace CoreLibrary.Configuration
 {
     public class DatabaseConfiguration
     {
-        public bool UseInMemoryDB { get; set; }
+        public bool UseInMemory { get; set; }
+        public string ConnectionString { get; set; }
     }
 }

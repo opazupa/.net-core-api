@@ -2,7 +2,24 @@ version: '3.4'
 
 services:
   api:
+    restart: always
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - DatabaseConfiguration:UseInMemory=false
+      - DatabaseConfiguration:ConnectionString=false
+      - JWTConfiguration:Secret=Docker-Secret-356178he9j20kle
     ports:
       - "5000:80"
+    depends_on: 
+      - db
+
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+
+  pg-admin:
+    image: dpage/pgadmin4
+

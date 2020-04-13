@@ -1,5 +1,4 @@
-﻿using System;
-using CoreLibrary.Configuration;
+﻿using CoreLibrary.Configuration;
 using CoreLibrary.Services.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +27,7 @@ namespace CoreLibrary.Extensions
             // Configure persistence context for unit of work.
             services.AddScoped<IPersistenceService, PersistenceService<T>>();
 
-            if (dbConfig.UseInMemoryDB)
+            if (dbConfig.UseInMemory)
             {
                 services.AddDbContext<T>(options => options
                     .UseInMemoryDatabase(databaseName: $"Olli's {nameof(T)} DB")
@@ -36,8 +35,7 @@ namespace CoreLibrary.Extensions
             }
             else
             {
-                // TODO not implemented for API base.
-                throw new NotImplementedException("Only in memory DB suppported.");
+                services.AddDbContext<T>(options => options.UseNpgsql(dbConfig.ConnectionString));
             }
         }
     }

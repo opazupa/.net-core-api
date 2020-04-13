@@ -16,7 +16,7 @@ namespace FeatureLibrary.Models
             var codingSkills = new Faker<CodingSkillEntity>()
                 .StrictMode(false)
                 .RuleFor(s => s.Id, f => f.Random.Number(1, 10000000))
-                .RuleFor(s => s.Name, n => n.Lorem.Sentence())
+                .RuleFor(s => s.Name, n => $"{n.Hacker.Adjective()} {n.Hacker.Abbreviation()}")
                 .RuleFor(s => s.Level, l => l.PickRandom<CodingSkillLevel>());
 
             if (users != null) codingSkills.RuleFor(s => s.UserId, n => n.PickRandom(users).Id);
