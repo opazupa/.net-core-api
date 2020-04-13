@@ -1,12 +1,14 @@
-﻿using API.GraphQL.Types.Events;
-using API.GraphQL.Types.Inputs;
-using API.GraphQL.Types;
+﻿using System.Threading.Tasks;
 using API.GraphQL.Extensions;
+using API.GraphQL.Subscriptions;
+using API.GraphQL.Types;
+using API.GraphQL.Types.Events;
+using API.GraphQL.Types.Inputs;
 using FeatureLibrary.Models;
 using FeatureLibrary.Models.Entities;
 using FeatureLibrary.Services;
+using HotChocolate.Resolvers;
 using HotChocolate.Types;
-using API.GraphQL.Subscriptions;
 
 namespace API.GraphQL.Mutations
 {
@@ -67,14 +69,13 @@ namespace API.GraphQL.Mutations
                     await ctx.Save();
 
                     // Send events
-                    await ctx.TriggerEvent(new CodingSkillEvent(Events.ON_SKILL_UPDATE_BY_LEVEL, skill.Level, skill));
-                    await ctx.TriggerEvent(new CodingSkillEvent(Events.ON_SKILL_UPDATE_BY_NAME, skill.Name, skill));
+                    await TriggerCodingSkillEvents(ctx, skill);
                     return skill;
                 });
             descriptor
                 .Field("updateSkill")
                 .Authorize()
-                .Argument(ID, arg => arg.Type<NonNullType<LongType>>().Description("Coding skill id"))
+                .Argument(ID, arg => arg.Type<NonNullType<IdType>>().Description("Coding skill id"))
                 .Argument(SKILL, arg => arg.Type<NonNullType<CodingSkillInputType>>().Description("Coding skill info"))
                 .Type<CodingSkillType>()
                 .Resolver(async ctx =>
@@ -83,23 +84,37 @@ namespace API.GraphQL.Mutations
                     await ctx.Save();
 
                     // Send events
-                    await ctx.TriggerEvent(new CodingSkillEvent(Events.ON_SKILL_UPDATE_BY_LEVEL, skill.Level, skill));
-                    await ctx.TriggerEvent(new CodingSkillEvent(Events.ON_SKILL_UPDATE_BY_NAME, skill.Name, skill));
-                    return SKILL;
+                    await TriggerCodingSkillEvents(ctx, skill);
+                    return skill;
                 });
             descriptor
                 .Field("deleteSkill")
                 .Authorize()
-                .Argument(ID, arg => arg.Type<NonNullType<LongType>>().Description("Coding skill id"))
-                .Type<LongType>()
+                .Argument(ID, arg => arg.Type<NonNullType<IdType>>().Description("Coding skill id"))
+                .Type<CodingSkillType>()
                 .Resolver(async ctx =>
                 {
                     var id = ctx.Argument<long>(ID);
 
-                    await ctx.Service<ICodingSkillService>().Delete(id);
+                    var skill = await ctx.Service<ICodingSkillService>().Delete(id);
                     await ctx.Save();
-                    return ID;
+
+                    // Send events
+                    await TriggerCodingSkillEvents(ctx, skill);
+                    return skill;
                 });
+        }
+
+        /// <summary>
+        /// Trigegr coding skill events
+        /// </summary>
+        private async Task TriggerCodingSkillEvents(IResolverContext ctx, CodingSkillEntity skill)
+        {
+            await Task.WhenAll(new []{
+                ctx.TriggerEvent(new CodingSkillEvent(Events.ON_SKILL_BY_LEVEL, skill.Level, skill)),
+                ctx.TriggerEvent(new CodingSkillEvent(Events.ON_SKILL_BY_NAME, skill.Name, skill)),
+                ctx.TriggerEvent(new CodingSkillEvent(Events.ON_SKILL_BY_USER, skill.UserId, skill))
+            });
         }
     }
 }

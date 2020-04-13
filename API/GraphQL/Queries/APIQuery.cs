@@ -1,4 +1,5 @@
-﻿using API.GraphQL.Types;
+﻿using System.Linq;
+using API.GraphQL.Types;
 using API.GraphQL.Types.Filters;
 using API.GraphQL.Types.Sorts;
 using FeatureLibrary.Repositories;
@@ -17,13 +18,13 @@ namespace API.GraphQL.Queries
 
         protected override void Configure(IObjectTypeDescriptor descriptor)
         {
+            descriptor.Authorize();
             /*
              * Users
              */
             descriptor
                 .Field("user")
-                .Authorize()
-                .Argument(ID, arg => arg.Type<NonNullType<LongType>>().Description("User Id"))
+                .Argument(ID, arg => arg.Type<NonNullType<IdType>>().Description("User Id"))
                 .Type<UserType>()
                 .Resolver(async ctx =>
                 {
@@ -31,11 +32,10 @@ namespace API.GraphQL.Queries
                 });
             descriptor
                 .Field("users")
-                .Authorize()
                 .Type<ListType<UserType>>()
-                .Resolver(ctx =>
+                .Resolver(async ctx =>
                 {
-                    return ctx.Service<IUserRepository>().GetAsQueryable();
+                    return (await ctx.Service<IUserRepository>().GetAll()).AsQueryable();
                 })
                 .UseFiltering<UserFilterType>()
                 .UseSorting<UserSortType>();
@@ -45,8 +45,7 @@ namespace API.GraphQL.Queries
             */
             descriptor
                 .Field("codingSkill")
-                .Authorize()
-                .Argument(ID, arg => arg.Type<NonNullType<LongType>>().Description("Coding skill Id"))
+                .Argument(ID, arg => arg.Type<NonNullType<IdType>>().Description("Coding skill Id"))
                 .Type<CodingSkillType>()
                 .Resolver(async ctx =>
                 {
@@ -54,11 +53,10 @@ namespace API.GraphQL.Queries
                 });
             descriptor
                 .Field("codingSkills")
-                .Authorize()
                 .Type<ListType<CodingSkillType>>()
-                .Resolver(ctx =>
+                .Resolver(async ctx =>
                 {
-                    return ctx.Service<ICodingSkillRepository>().GetAsQueryable();
+                    return (await ctx.Service<ICodingSkillRepository>().GetAll()).AsQueryable();
                 })
                 .UseFiltering<CodingSkillFilterType>()
                 .UseSorting<CodingSkillSortType>();

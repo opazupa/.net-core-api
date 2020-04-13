@@ -15,6 +15,7 @@ namespace API.GraphQL.Types
 
             descriptor
                 .Field(x => x.Id)
+                .Type<NonNullType<IdType>>()
                 .Description("Coding skill Id");
 
             descriptor

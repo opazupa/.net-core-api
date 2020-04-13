@@ -10,7 +10,6 @@ namespace FeatureLibrary.Repositories
     {
         Task<UserEntity> Add(UserEntity userEntity);
         Task<IEnumerable<UserEntity>> GetAll();
-        IQueryable<UserEntity> GetAsQueryable();
         Task<UserEntity> GetById(long userId);
         Task<UserEntity> Verify(Authentication auth);
     }

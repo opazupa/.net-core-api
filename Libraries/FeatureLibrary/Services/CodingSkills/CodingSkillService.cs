@@ -47,7 +47,7 @@ namespace FeatureLibrary.Services
         /// </summary>
         /// <returns></returns>
         /// <param name="id">Id</param>
-        public async Task Delete(long id)
+        public async Task<CodingSkillEntity> Delete(long id)
         {
             CodingSkillEntity deletedSkill = await _codingSkillRepository.GetById(id);
 
@@ -57,6 +57,7 @@ namespace FeatureLibrary.Services
             }
 
             _codingSkillRepository.Delete(deletedSkill);
+            return deletedSkill;
         }
 
         /// <summary>
@@ -93,18 +94,6 @@ namespace FeatureLibrary.Services
         public async Task<IEnumerable<CodingSkillEntity>> GetByUserId(long userId)
         {
             return await _codingSkillRepository.GetByUserId(userId);
-        }
-
-        /// <summary>
-        /// Get coding skills by user ids
-        /// </summary>
-        /// <param name="userIds"></param>
-        /// <returns>Lookup of coding skills for users.</returns>
-        public async Task<ILookup<long, CodingSkillEntity>> GetByUserIds(IEnumerable<long> userIds)
-        {
-            // Get all by empty filter
-            var skills = await _codingSkillRepository.GetByFilter(new CodingSkillFilter());
-            return skills.ToLookup(s => s.UserId);
         }
 
         /// <summary>

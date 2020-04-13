@@ -35,9 +35,9 @@ namespace FeatureLibrary.Repositories
         /// Delete the specified deletedSkill.
         /// </summary>
         /// <param name="deletedSkill">Deleted skill</param>
-        public void Delete(CodingSkillEntity deletedSkill)
+        public Task Delete(CodingSkillEntity deletedSkill)
         {
-            _context.CodingSkills.Remove(deletedSkill);
+            return Task.FromResult(_context.CodingSkills.Remove(deletedSkill));
         }
 
         /// <summary>
@@ -66,9 +66,9 @@ namespace FeatureLibrary.Repositories
         /// Get all skills as IQueryable
         /// </summary>
         /// <returns></returns>
-        public IQueryable<CodingSkillEntity> GetAsQueryable()
+        public async Task<IEnumerable<CodingSkillEntity>> GetAll()
         {
-            return _context.CodingSkills;
+            return await _context.CodingSkills.ToListAsync();
         }
 
         /// <summary>
@@ -96,12 +96,22 @@ namespace FeatureLibrary.Repositories
         }
 
         /// <summary>
+        /// Get coding skills by user ids
+        /// </summary>
+        /// <param name="userIds"></param>
+        /// <returns>Lookup of coding skills for users.</returns>
+        public Task<ILookup<long, CodingSkillEntity>> GetByUserIds(IEnumerable<long> userIds)
+        {
+            return Task.FromResult(_context.CodingSkills.ToLookup(s => s.UserId));
+        }
+
+        /// <summary>
         /// Update the specified coding skill.
         /// </summary>
         /// <param name="updatedSkill">Updated skill</param>
-        public void Update(CodingSkillEntity updatedSkill)
+        public Task Update(CodingSkillEntity updatedSkill)
         {
-            _context.CodingSkills.Update(updatedSkill);
+            return Task.FromResult(_context.CodingSkills.Update(updatedSkill));
         }
     }
 }

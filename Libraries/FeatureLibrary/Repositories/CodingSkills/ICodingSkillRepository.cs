@@ -11,9 +11,10 @@ namespace FeatureLibrary.Repositories
         Task<IEnumerable<CodingSkillEntity>> GetByFilter(CodingSkillFilter filter);
         Task<CodingSkillEntity> GetById(long id);
         Task<CodingSkillEntity> Add(CodingSkillEntity newSkill);
-        void Update(CodingSkillEntity updatedSkill);
-        void Delete(CodingSkillEntity deletedSkill);
+        Task Update(CodingSkillEntity updatedSkill);
+        Task Delete(CodingSkillEntity deletedSkill);
         Task<IEnumerable<CodingSkillEntity>> GetByUserId(long userId);
-        IQueryable<CodingSkillEntity> GetAsQueryable();
+        Task<IEnumerable<CodingSkillEntity>> GetAll();
+        Task<ILookup<long, CodingSkillEntity>> GetByUserIds(IEnumerable<long> userIds);
     }
 }
