@@ -75,7 +75,12 @@ namespace API
             app.UseAuthorization();
 
             app.UseWebSockets();
-            app.UseGraphQL("/graphql");
+            app.UseGraphQL(new QueryMiddlewareOptions
+            {
+                EnableSubscriptions = true,
+                SubscriptionPath = "/subscription",
+                Path = "/graphql"
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

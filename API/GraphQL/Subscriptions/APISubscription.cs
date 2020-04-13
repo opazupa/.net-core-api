@@ -14,6 +14,7 @@ namespace API.GraphQL.Subscriptions
             descriptor
                 .BindFieldsExplicitly()
                 .Authorize();
+
             /*
              * Users
              */
