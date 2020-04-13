@@ -1,9 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
-namespace FeatureLibrary.Models
+namespace FeatureLibrary.Models.Entities
 {
     /// <summary>
     /// Skill level for coding.
@@ -17,9 +16,9 @@ namespace FeatureLibrary.Models
     }
 
     /// <summary>
-    /// Coding skill.
+    /// Coding skill entity.
     /// </summary>
-    public class CodingSkill
+    public class CodingSkillEntity
     {
         /// <summary>
         /// Skill identifier.

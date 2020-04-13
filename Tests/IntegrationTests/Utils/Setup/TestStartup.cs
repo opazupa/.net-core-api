@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using API;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
-using API;
 
 namespace IntegrationTests.Utils.Setup
 {
@@ -10,7 +10,7 @@ namespace IntegrationTests.Utils.Setup
     /// </summary>
     public class TestStartup : Startup
     {
-        public TestStartup(IConfiguration configuration) : base(configuration) { }
+        public TestStartup(IConfiguration configuration, IWebHostEnvironment env) : base(configuration, env) { }
 
         /// <summary>
         /// Extend app service configurations.

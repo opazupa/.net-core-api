@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Models;
 using CoreLibrary.Exceptions;
-using FeatureLibrary.Database;
 using FeatureLibrary.Models;
+using FeatureLibrary.Models.Entities;
 using IntegrationTests.Utils.Setup;
 using Xunit;
 
@@ -18,17 +19,17 @@ namespace IntegrationTests
     public class CodingSkillAPITest : BaseIntegrationTest
     {
         private readonly string API_URL = "api/coding-skill";
-        private readonly CodingSkill testSkill = SeedData.CodingSkills.First();
+        private readonly CodingSkillEntity testSkill = SeedData.CodingSkills.First();
 
         [Fact]
         public async Task AddAndDeleteCodingSkill()
         {
             var newSkill = MockData.GetSkills(1).First();
-            CodingSkill skill = await Post<CodingSkill>($"{API_URL}", newSkill);
+            var skillId = await Post<long>(API_URL, newSkill);
+            var skill = await Get<CodingSkill>($"{API_URL}/{skillId}");
 
             Assert.True(skill != null, $"Skill shouldn't be null.");
             Assert.True(skill.Id != 0, $"Skill shouldn't be 0.");
-            Assert.True(skill.UserId == SeedData.ADMIN_USER.Id, $"Skill userId should match to admin Id.");
             Assert.True(skill.Name == newSkill.Name, $"Coding skill name doesn't match.");
             Assert.True(skill.Level == newSkill.Level, $"Coding skill level doesn't match.");
 

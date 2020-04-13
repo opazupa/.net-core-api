@@ -1,7 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using FeatureLibrary.Database;
 using FeatureLibrary.Models;
+using FeatureLibrary.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace FeatureLibrary.Repositories
@@ -21,17 +22,33 @@ namespace FeatureLibrary.Repositories
         /// <summary>
         /// Add a new user
         /// </summary>
-        /// <param name="auth"></param>
+        /// <param name="newUser"></param>
         /// <returns></returns>
-        public async Task<User> Add(Authentication auth)
+        public async Task<UserEntity> Add(UserEntity newUser)
         {
-            var newUser = new User {
-                Name = auth.Username,
-                Password = auth.Password
-            };
-
             await _context.Users.AddAsync(newUser);
             return newUser;
+        }
+
+        /// <summary>
+        /// Get user by id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<UserEntity> GetById(long userId)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        }
+
+        /// <summary>
+        /// Get all users
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<UserEntity>> GetAll()
+        {
+            return await _context.Users
+                .OrderBy(u => u.UserName)
+                .ToListAsync();
         }
 
         /// <summary>
@@ -40,10 +57,10 @@ namespace FeatureLibrary.Repositories
         /// </summary>
         /// <param name="auth"></param>
         /// <returns></returns>
-        public Task<User> Verify(Authentication auth)
+        public Task<UserEntity> Verify(Authentication auth)
         {
             return _context.Users
-                .Where(u => u.Name == auth.Username)
+                .Where(u => u.UserName == auth.Username)
                 .Where(u => u.Password == auth.Password)
                 .SingleOrDefaultAsync();
         }

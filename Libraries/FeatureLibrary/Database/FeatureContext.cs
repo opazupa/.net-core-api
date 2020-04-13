@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using FeatureLibrary.Models;
+using FeatureLibrary.Models.Entities;
 
-namespace FeatureLibrary.Database
+namespace FeatureLibrary.Models
 {
     /// <summary>
     /// Feature context.
@@ -12,14 +12,14 @@ namespace FeatureLibrary.Database
         {
         }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<CodingSkill> CodingSkills { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
+        public DbSet<CodingSkillEntity> CodingSkills { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CodingSkill>(entity => {
-                entity.ToTable(nameof(CodingSkill));
+            modelBuilder.Entity<CodingSkillEntity>(entity => {
+                entity.ToTable(nameof(CodingSkillEntity));
 
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.Property(e => e.Level).IsRequired();
@@ -32,11 +32,11 @@ namespace FeatureLibrary.Database
                 entity.HasData(SeedData.CodingSkills);
             });
 
-            modelBuilder.Entity<User>(entity => {
-                entity.ToTable(nameof(User));
+            modelBuilder.Entity<UserEntity>(entity => {
+                entity.ToTable(nameof(UserEntity));
                 entity.HasKey(e => e.Id);
 
-                entity.HasIndex(e => e.Name).IsUnique();
+                entity.HasIndex(e => e.UserName).IsUnique();
                 entity.Property(e => e.Password).IsRequired();
 
                 entity.HasMany(b => b.Skills)

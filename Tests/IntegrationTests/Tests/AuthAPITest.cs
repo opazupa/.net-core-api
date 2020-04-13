@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static FeatureLibrary.Database.MockData;
-using FeatureLibrary.Database;
+using CoreLibrary.Exceptions;
 using FeatureLibrary.Models;
 using IntegrationTests.Utils.Setup;
 using Xunit;
-using CoreLibrary.Exceptions;
+using static FeatureLibrary.Models.MockData;
 
 namespace IntegrationTests
 {
@@ -27,12 +25,14 @@ namespace IntegrationTests
             var auth = new Authentication()
             {
                 Password = admin.Password,
-                Username = admin.Name
+                Username = admin.UserName
             };
 
             var result = await Post<AuthenticationResult>($"{API_URL}/login", auth);
-            Assert.True(result.UserId == admin.Id);
+            Assert.True(result.UserName == admin.UserName);
             Assert.True(result.Token != null);
+            Assert.True(result.TokenType == TokenType.Bearer);
+            Assert.True(result.ExpiresIn.Date == DateTime.UtcNow.AddDays(7).Date);
         }
 
         [Fact]
@@ -41,10 +41,10 @@ namespace IntegrationTests
             var newUser = GetUsers(1).Select(u => new Authentication()
             {
                 Password = u.Password,
-                Username = u.Name
+                Username = u.UserName
             }).First();
 
-            await Assert.ThrowsAsync<BadRequestException>(() => Post<AuthenticationResult>($"{API_URL}/login", newUser));
+            await Assert.ThrowsAsync<UnauthorizedException>(() => Post<AuthenticationResult>($"{API_URL}/login", newUser));
         }
 
         [Fact]
@@ -53,7 +53,7 @@ namespace IntegrationTests
             var newUser = GetUsers(1).Select(u => new Authentication()
             {
                 Password = u.Password,
-                Username = u.Name
+                Username = u.UserName
             }).First();
 
             var userId = await Post<long>($"{API_URL}/register", newUser);

@@ -2,13 +2,11 @@
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using FeatureLibrary.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
-using static FeatureLibrary.Database.SeedData;
 
 namespace IntegrationTests.Utils.Setup
 {

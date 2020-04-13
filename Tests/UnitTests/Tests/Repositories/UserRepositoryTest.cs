@@ -2,9 +2,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using FeatureLibrary.Models;
+using FeatureLibrary.Models.Entities;
 using FeatureLibrary.Repositories;
 using UnitTests.Utils.Setup;
-using static FeatureLibrary.Database.MockData;
+using static FeatureLibrary.Models.MockData;
 using Xunit;
 
 namespace UnitTests.Repositories
@@ -12,7 +13,7 @@ namespace UnitTests.Repositories
     [Collection("Sequential")]
     public class UserRepositoryTest
     {
-        private readonly IEnumerable<User> testUsers = GetUsers(2);
+        private readonly IEnumerable<UserEntity> testUsers = GetUsers(2);
 
         [Fact]
         public async Task VerifyUser()
@@ -24,12 +25,12 @@ namespace UnitTests.Repositories
             var auth = new Authentication()
             {
                 Password = testUser.Password,
-                Username = testUser.Name
+                Username = testUser.UserName
             };
 
             var user = await repo.Verify(auth);
             Assert.Equal(user.Id, testUser.Id);
-            Assert.Equal(user.Name, testUser.Name);
+            Assert.Equal(user.UserName, testUser.UserName);
             Assert.Equal(user.Password, testUser.Password);
 
         }
@@ -37,18 +38,15 @@ namespace UnitTests.Repositories
         [Fact]
         public async Task AddUser()
         {
-            var newUser = GetUsers(1).Select(u => new Authentication()
-            {
-                Password = u.Password,
-                Username = u.Name
-            }).First();
+            var newUser = GetUsers(1).First();
+            newUser.Id = 0;
 
             using var ctx = await DBContextHelper.ResetWithData(testUsers);
             IUserRepository repo = new UserRepository(ctx);
 
             var user = await repo.Add(newUser);
             Assert.True(user.Id != 0);
-            Assert.Equal(user.Name, newUser.Username);
+            Assert.Equal(user.UserName, newUser.UserName);
             Assert.Equal(user.Password, newUser.Password);
         }
     }

@@ -15,10 +15,10 @@ namespace FeatureLibrary.Extensions
         /// </summary>
         /// <param name="User"></param>
         /// <returns></returns>
-        public static long GetId(this ClaimsPrincipal User)
+        public static long? GetId(this ClaimsPrincipal User)
         {
             var claim = User.Claims.Single(a => a.Type == USER_ID);
-            return long.TryParse(claim.Value, out var val) ? val : 0;
+            return long.TryParse(claim.Value, out var val) ? val : (long?)null;
         }
     }
 }

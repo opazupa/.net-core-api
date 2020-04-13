@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoreLibrary.Exceptions;
+using FeatureLibrary.Models.Entities;
 using FeatureLibrary.Models;
 using FeatureLibrary.Repositories;
+using System.Linq;
+using System.Threading;
 
 namespace FeatureLibrary.Services
 {
@@ -22,15 +25,21 @@ namespace FeatureLibrary.Services
         /// </summary>
         /// <returns>The added coding skill id</returns>
         /// <param name="newSkill">New skill</param>
-        public async Task<long> Add(CodingSkill newSkill)
+        /// <param name="userId"></param>
+        public async Task<CodingSkillEntity> Add(CodingSkillEntity newSkill, long? userId)
         {
-            if (string.IsNullOrWhiteSpace(newSkill.Name) || newSkill.Level == 0)
+            if (string.IsNullOrWhiteSpace(newSkill.Name) || newSkill.Level == 0 || userId == null)
             {
                 throw new BadRequestException($"Missing name {newSkill.Name} or level {newSkill.Level} for new skill.");
             }
-            await _codingSkillRepository.Add(newSkill);
 
-            return newSkill.Id;
+            var skill = new CodingSkillEntity()
+            {
+                Name = newSkill.Name,
+                Level = newSkill.Level,
+                UserId = userId.Value
+            };
+            return await _codingSkillRepository.Add(skill);
         }
 
         /// <summary>
@@ -38,9 +47,9 @@ namespace FeatureLibrary.Services
         /// </summary>
         /// <returns></returns>
         /// <param name="id">Id</param>
-        public async Task Delete(long id)
+        public async Task<CodingSkillEntity> Delete(long id)
         {
-            CodingSkill deletedSkill = await _codingSkillRepository.GetById(id);
+            CodingSkillEntity deletedSkill = await _codingSkillRepository.GetById(id);
 
             if (deletedSkill == null)
             {
@@ -48,6 +57,7 @@ namespace FeatureLibrary.Services
             }
 
             _codingSkillRepository.Delete(deletedSkill);
+            return deletedSkill;
         }
 
         /// <summary>
@@ -55,14 +65,19 @@ namespace FeatureLibrary.Services
         /// </summary>
         /// <returns>List of coding skills matching to filter.</returns>
         /// <param name="filter">Filter</param>
-        public async Task<IEnumerable<CodingSkill>> GetByFilter(CodingSkillFilter filter)
+        public async Task<IEnumerable<CodingSkillEntity>> GetByFilter(CodingSkillFilter filter)
         {
             return await _codingSkillRepository.GetByFilter(filter);
         }
 
-        public async Task<CodingSkill> GetById(long id)
+        /// <summary>
+        /// Get skill by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<CodingSkillEntity> GetById(long id)
         {
-            CodingSkill skill = await _codingSkillRepository.GetById(id);
+            CodingSkillEntity skill = await _codingSkillRepository.GetById(id);
             if (skill == null)
             {
                 throw new NotFoundException($"Skill with id {id} not found.");
@@ -72,27 +87,39 @@ namespace FeatureLibrary.Services
         }
 
         /// <summary>
+        /// Get skill by User Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CodingSkillEntity>> GetByUserId(long userId)
+        {
+            return await _codingSkillRepository.GetByUserId(userId);
+        }
+
+        /// <summary>
         /// Update the specified coding skill.
         /// </summary>
         /// <returns></returns>
         /// <param name="id">Id</param>
-        /// <param name="updatedSkill">Updated skill</param>
-        public async Task Update(long id, CodingSkill updatedSkill)
+        /// <param name="modifiedSkill">Updated skill</param>
+        public async Task<CodingSkillEntity> Update(long id, CodingSkillEntity modifiedSkill)
         {
-            if (string.IsNullOrWhiteSpace(updatedSkill.Name) || updatedSkill.Level == 0)
+            if (string.IsNullOrWhiteSpace(modifiedSkill.Name) || modifiedSkill.Level == 0)
             {
-                throw new BadRequestException($"Missing name {updatedSkill.Name} or level {updatedSkill.Level} for updated skill.");
+                throw new BadRequestException($"Missing name {modifiedSkill.Name} or level {modifiedSkill.Level} for updated skill.");
             }
 
-            CodingSkill skill = await _codingSkillRepository.GetById(id);
+            CodingSkillEntity skill = await _codingSkillRepository.GetById(id);
             if (skill == null)
             {
                 throw new NotFoundException($"Skill with id {id} not found.");
             }
 
-            skill.Level = updatedSkill.Level;
-            skill.Name = updatedSkill.Name;
+            skill.Level = modifiedSkill.Level;
+            skill.Name = modifiedSkill.Name;
             _codingSkillRepository.Update(skill);
+            
+            return skill;
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
 using CoreLibrary.Exceptions;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 
 namespace API.Middlewares
 {
@@ -48,12 +48,16 @@ namespace API.Middlewares
             {
                 code = HttpStatusCode.NotFound;
             }
+            else if (ex is UnauthorizedException)
+            {
+                code = HttpStatusCode.Unauthorized;
+            }
             else
             {
                 code = HttpStatusCode.InternalServerError;
             }
 
-            var result = JsonConvert.SerializeObject(new { error = ex.Message });
+            var result = JsonSerializer.Serialize(new { error = ex.Message });
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
             return context.Response.WriteAsync(result);

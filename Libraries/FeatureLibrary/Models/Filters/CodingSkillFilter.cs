@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FeatureLibrary.Models.Entities;
 
 namespace FeatureLibrary.Models
 {

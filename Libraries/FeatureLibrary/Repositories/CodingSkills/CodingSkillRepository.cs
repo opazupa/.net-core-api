@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using FeatureLibrary.Database;
 using FeatureLibrary.Models;
+using FeatureLibrary.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace FeatureLibrary.Repositories
@@ -25,18 +25,19 @@ namespace FeatureLibrary.Repositories
         /// </summary>
         /// <returns></returns>
         /// <param name="newSkill">New skill</param>
-        public async Task Add(CodingSkill newSkill)
+        public async Task<CodingSkillEntity> Add(CodingSkillEntity newSkill)
         {
             await _context.CodingSkills.AddAsync(newSkill);
+            return newSkill;
         }
 
         /// <summary>
         /// Delete the specified deletedSkill.
         /// </summary>
         /// <param name="deletedSkill">Deleted skill</param>
-        public void Delete(CodingSkill deletedSkill)
+        public Task Delete(CodingSkillEntity deletedSkill)
         {
-            _context.CodingSkills.Remove(deletedSkill);
+            return Task.FromResult(_context.CodingSkills.Remove(deletedSkill));
         }
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace FeatureLibrary.Repositories
         /// </summary>
         /// <returns>List of skills matching given filter.</returns>
         /// <param name="filter">Filter</param>
-        public async Task<IEnumerable<CodingSkill>> GetByFilter(CodingSkillFilter filter)
+        public async Task<IEnumerable<CodingSkillEntity>> GetByFilter(CodingSkillFilter filter)
         {
             var codingSkills = _context.CodingSkills.AsQueryable();
 
@@ -62,22 +63,55 @@ namespace FeatureLibrary.Repositories
         }
 
         /// <summary>
+        /// Get all skills as IQueryable
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<CodingSkillEntity>> GetAll()
+        {
+            return await _context.CodingSkills.ToListAsync();
+        }
+
+        /// <summary>
         /// Get the coding skill by id.
         /// </summary>
         /// <returns>Found skill</returns>
-        /// <param name="id">Id/param>
-        public async Task<CodingSkill> GetById(long id)
+        /// <param name="id"></param>
+        public async Task<CodingSkillEntity> GetById(long id)
         {
-            return await _context.CodingSkills.Where(skill => skill.Id == id).SingleOrDefaultAsync();
+            return await _context.CodingSkills
+                .Where(skill => skill.Id == id)
+                .SingleOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// Get the coding skills by user id.
+        /// </summary>
+        /// <returns>Found skill</returns>
+        /// <param name="userId"></param>
+        public async Task<IEnumerable<CodingSkillEntity>> GetByUserId(long userId)
+        {
+            return await _context.CodingSkills
+                .Where(skill => skill.UserId == userId)
+                .ToListAsync();
+        }
+
+        /// <summary>
+        /// Get coding skills by user ids
+        /// </summary>
+        /// <param name="userIds"></param>
+        /// <returns>Lookup of coding skills for users.</returns>
+        public Task<ILookup<long, CodingSkillEntity>> GetByUserIds(IEnumerable<long> userIds)
+        {
+            return Task.FromResult(_context.CodingSkills.ToLookup(s => s.UserId));
         }
 
         /// <summary>
         /// Update the specified coding skill.
         /// </summary>
         /// <param name="updatedSkill">Updated skill</param>
-        public void Update(CodingSkill updatedSkill)
+        public Task Update(CodingSkillEntity updatedSkill)
         {
-            _context.CodingSkills.Update(updatedSkill);
+            return Task.FromResult(_context.CodingSkills.Update(updatedSkill));
         }
     }
 }

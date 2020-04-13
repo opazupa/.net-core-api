@@ -1,29 +1,34 @@
 using System.Linq;
 using System.Threading.Tasks;
 using CoreLibrary.Exceptions;
+using FeatureLibrary.Models.Entities;
 using FeatureLibrary.Repositories;
 using FeatureLibrary.Services;
 using Moq;
 using Xunit;
-using static FeatureLibrary.Database.MockData;
+using static FeatureLibrary.Models.MockData;
 
 namespace UnitTests.Services
 {
     public class CodingSkillServiceTest
     {
 
-        [Fact]
-        public async Task AddCodingSkillWithNoLevel()
+        [Theory]
+        [InlineData("name", CodingSkillLevel.Beginner, null)]
+        [InlineData(null, CodingSkillLevel.Beginner, 234)]
+        [InlineData("name", null, 234)]
+        public async Task AddBadCodingSkill(string name, CodingSkillLevel? level, long? userId)
         {
-            var toAdd = GetSkills(1).First();
-            toAdd.Level = 0;
+            var toAdd = new CodingSkillEntity()
+            {
+                Name = name,
+                Level = level ?? 0
+            };
 
             var _repository = new Mock<ICodingSkillRepository>();
-            _repository.Setup(x => x.Add(null)).Returns(Task.FromResult(toAdd));
-
             var codingSkillService = new CodingSkillService(_repository.Object);
 
-            await Assert.ThrowsAsync<BadRequestException>(() => codingSkillService.Add(toAdd));
+            await Assert.ThrowsAsync<BadRequestException>(() => codingSkillService.Add(toAdd, userId));
         }
     }
 }

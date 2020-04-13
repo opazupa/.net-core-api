@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using CoreLibrary.Exceptions;
 using FeatureLibrary.Models;
 using Newtonsoft.Json;
-using static FeatureLibrary.Database.SeedData;
+using static FeatureLibrary.Models.SeedData;
 
 namespace IntegrationTests.Utils
 {
@@ -29,7 +29,7 @@ namespace IntegrationTests.Utils
                 case HttpStatusCode.BadRequest:
                     throw new BadRequestException(msg);
                 case HttpStatusCode.Unauthorized:
-                    throw new UnauthorizedAccessException();
+                    throw new UnauthorizedException();
                 case HttpStatusCode.NotFound:
                     throw new NotFoundException(msg);
                 case HttpStatusCode.InternalServerError:
@@ -62,7 +62,7 @@ namespace IntegrationTests.Utils
         {
             var adminAuth = new Authentication
             {
-                Username = ADMIN_USER.Name,
+                Username = ADMIN_USER.UserName,
                 Password = ADMIN_USER.Password
             };
 
@@ -74,4 +74,4 @@ namespace IntegrationTests.Utils
             return client;
         }
     }
-}
+}   

@@ -1,16 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
 
-<PropertyGroup>
-  <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  <NoWarn>$(NoWarn);1591</NoWarn>
-  <DockerComposeProjectPath>../docker-compose.dcproj</DockerComposeProjectPath>
-  <PackOnBuild>true</PackOnBuild>
-  <PackageId>OlSa</PackageId>
-  <PackageVersion>1.0</PackageVersion>
-  <Authors>Olli Saarinen</Authors>
-  <Description>Olli's .NET Core API Base</Description>
-</PropertyGroup>
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <PackOnBuild>true</PackOnBuild>
+    <PackageId>OlSa</PackageId>
+    <PackageVersion>1.0</PackageVersion>
+    <Authors>Olli Saarinen</Authors>
+    <Description>Olli's .NET Core API Base</Description>
+  </PropertyGroup>
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -18,16 +17,36 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.3.0" />
-    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.2"><PrivateAssets>all</PrivateAssets>
-<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-</PackageReference>
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="10.4.1" />
+    <PackageReference Include="HotChocolate" Version="10.4.1" />
+    <PackageReference Include="HotChocolate.AspNetCore.Playground" Version="10.4.1" />
+    <PackageReference Include="HotChocolate.Subscriptions" Version="10.4.1" />
+    <PackageReference Include="HotChocolate.Types.Filters" Version="10.4.1" />
+    <PackageReference Include="HotChocolate.Subscriptions.InMemory" Version="10.4.1" />
+    <PackageReference Include="HotChocolate.Types.Sorting" Version="10.4.1" />
+    <PackageReference Include="HotChocolate.AspNetCore.Subscriptions" Version="10.4.1" />
+    <PackageReference Include="HotChocolate.Language" Version="10.4.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Extensions\" />
     <Folder Include="Middlewares\" />
+    <Folder Include="Models\" />
+    <Folder Include="Models\CodingSkills\" />
+    <Folder Include="Models\Users\" />
+    <Folder Include="GraphQL\" />
+    <Folder Include="GraphQL\Types\" />
+    <Folder Include="GraphQL\Queries\" />
+    <Folder Include="GraphQL\Extensions\" />
+    <Folder Include="GraphQL\Mutations\" />
+    <Folder Include="GraphQL\Types\Sorts\" />
+    <Folder Include="GraphQL\Types\Filters\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Libraries\FeatureLibrary\FeatureLibrary.csproj" />

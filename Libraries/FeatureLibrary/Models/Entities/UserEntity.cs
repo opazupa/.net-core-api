@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
-namespace FeatureLibrary.Models
+namespace FeatureLibrary.Models.Entities
 {
     /// <summary>
-    /// User model
+    /// User entity model
     /// </summary>
-    public class User
+    public class UserEntity
     {
         /// <summary>
         /// User id
@@ -15,17 +14,16 @@ namespace FeatureLibrary.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         /// <summary>
-        /// User name
+        /// Username
         /// </summary>
-        public string Name { get; set; }
+        public string UserName { get; set; }
         /// <summary>
         /// User password. TODO hash passwords with salt to store it!
         /// </summary>
-        [JsonIgnore]
         public string Password { get; set; }
         /// <summary>
         /// User skills
         /// </summary>
-        public IEnumerable<CodingSkill> Skills { get; set; } = new List<CodingSkill>();
+        public IEnumerable<CodingSkillEntity> Skills { get; set; } = new List<CodingSkillEntity>();
     }
 }

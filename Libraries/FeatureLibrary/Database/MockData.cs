@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Bogus;
-using FeatureLibrary.Models;
+using FeatureLibrary.Models.Entities;
 
-namespace FeatureLibrary.Database
+namespace FeatureLibrary.Models
 {
     public static class MockData
     {
@@ -11,9 +11,9 @@ namespace FeatureLibrary.Database
         /// </summary>
         /// <param name="amount"></param>
         /// <returns></returns>
-        public static IEnumerable<CodingSkill> GetSkills(int amount, IEnumerable<User> users = null)
+        public static IEnumerable<CodingSkillEntity> GetSkills(int amount, IEnumerable<UserEntity> users = null)
         {
-            var codingSkills = new Faker<CodingSkill>()
+            var codingSkills = new Faker<CodingSkillEntity>()
                 .StrictMode(false)
                 .RuleFor(s => s.Id, f => f.Random.Number(1, 10000000))
                 .RuleFor(s => s.Name, n => n.Lorem.Sentence())
@@ -29,13 +29,13 @@ namespace FeatureLibrary.Database
         /// </summary>
         /// <param name="amount"></param>
         /// <returns></returns>
-        public static IEnumerable<User> GetUsers(int amount)
+        public static IEnumerable<UserEntity> GetUsers(int amount)
         {
             var ids = 2;
-            var users = new Faker<User>()
+            var users = new Faker<UserEntity>()
                 .StrictMode(false)
                 .RuleFor(s => s.Id, f => ids++)
-                .RuleFor(s => s.Name, n => n.Internet.UserName())
+                .RuleFor(s => s.UserName, n => n.Internet.UserName())
                 .RuleFor(s => s.Password, s => s.Internet.Password());
 
             return users.Generate(amount);

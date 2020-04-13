@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace API.Controllers
 {
     /// <summary>
@@ -49,10 +48,10 @@ namespace API.Controllers
         [ProducesResponseType(typeof(long), StatusCodes.Status201Created)]
         public async Task<IActionResult> Register([FromBody] Authentication auth)
         {
-            var userId = await _userService.CreateUser(auth);
+            var user = await _userService.CreateUser(auth);
             await _dbTransaction.CompleteAsync();
 
-            return StatusCode(StatusCodes.Status201Created, userId);
+            return StatusCode(StatusCodes.Status201Created, user.Id);
         }
     }
 }

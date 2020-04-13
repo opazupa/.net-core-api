@@ -1,23 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FeatureLibrary.Models;
-using static FeatureLibrary.Database.MockData;
+using FeatureLibrary.Models.Entities;
+using static FeatureLibrary.Models.MockData;
 
-namespace FeatureLibrary.Database
+namespace FeatureLibrary.Models
 {
     public static class SeedData
     {
         /// <summary>
         /// Admin user for testing
         /// </summary>
-        public static readonly User ADMIN_USER = new User
+        public static readonly UserEntity ADMIN_USER = new UserEntity
         {
             Id = 1,
-            Name = "admin",
+            UserName = "admin",
             Password = "admin"
         };
 
-        public static readonly List<User> Users = GetUsers(2).Concat(new[] { ADMIN_USER }).ToList();
-        public static readonly List<CodingSkill> CodingSkills = GetSkills(15, Users).ToList();
+        public static readonly List<UserEntity> Users = GetUsers(2).Concat(new[] { ADMIN_USER }).ToList();
+        public static readonly List<CodingSkillEntity> CodingSkills = GetSkills(15, Users).ToList();
     }
 }

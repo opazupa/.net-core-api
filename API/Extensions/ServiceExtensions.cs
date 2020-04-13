@@ -31,7 +31,7 @@ namespace API.Extensions
         /// Configures swagger doc generation.
         /// </summary>
         /// <param name="services"></param>
-        public static void ConfigureSwagger(this IServiceCollection services)
+        public static void AddSwaggerDoc(this IServiceCollection services)
         {
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
