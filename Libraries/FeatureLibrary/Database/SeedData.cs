@@ -17,7 +17,23 @@ namespace FeatureLibrary.Models
             Password = "admin"
         };
 
-        public static readonly List<UserEntity> Users = GetUsers(2).Concat(new[] { ADMIN_USER }).ToList();
-        public static readonly List<CodingSkillEntity> CodingSkills = GetSkills(15, Users).ToList();
+        /// <summary>
+        /// Ensure seed data to the context
+        /// </summary>
+        public static void EnsureSeedData(this FeatureContext context)
+        {
+            if (!context.Users.Any())
+            {
+                context.Users.AddRange(
+                    GetUsers(2)
+                    .Concat(new[] { ADMIN_USER }));
+                context.SaveChanges();
+            }
+            if (!context.CodingSkills.Any())
+            {
+                context.CodingSkills.AddRange(GetSkills(15, context.Users));
+                context.SaveChanges();
+            }
+        }
     }
 }

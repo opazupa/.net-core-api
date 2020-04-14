@@ -19,7 +19,6 @@ namespace IntegrationTests
     public class CodingSkillAPITest : BaseIntegrationTest
     {
         private readonly string API_URL = "api/coding-skill";
-        private readonly CodingSkillEntity testSkill = SeedData.CodingSkills.First();
 
         [Fact]
         public async Task AddAndDeleteCodingSkill()
@@ -40,6 +39,7 @@ namespace IntegrationTests
         [Fact]
         public async Task GetCodingSkillsByFilter()
         {
+            var testSkill = (await Get<List<CodingSkill>>(API_URL)).First();
             var filter = new
             {
                 Levels = testSkill.Level,
@@ -57,7 +57,7 @@ namespace IntegrationTests
         public async Task GetAllCodingSkills()
         {
             List<CodingSkill> skills = await Get<List<CodingSkill>>(API_URL);
-            Assert.True(skills != null && skills.Count() == SeedData.CodingSkills.Count(), "Not all seed data skills found from the API.");
+            Assert.True(skills != null && skills.Count() >= 10, "Not all seed data skills found from the API.");
         }
 
         [Fact]
@@ -75,10 +75,29 @@ namespace IntegrationTests
         [Fact]
         public async Task GetCodingSkillById()
         {
+            var testSkill = (await Get<List<CodingSkill>>(API_URL)).First();    
             CodingSkill skill = await Get<CodingSkill>($"{API_URL}/{testSkill.Id}");
+
             Assert.True(skill != null, $"Test skill with id {testSkill.Id} should found from the API.");
             Assert.True(skill.Name == testSkill.Name, $"Found coding skill name doesn't match to testskill's.");
             Assert.True(skill.Level == testSkill.Level, $"Found coding skill level doesn't match to testskill's.");
+        }
+
+        [Fact]
+        public async Task UpdateCodingSkill()
+        {
+            var testSkill = (await Get<List<CodingSkill>>(API_URL)).First();
+            var modified = new ModifiedSkill
+            {
+                Name = testSkill.Name + "-334",
+                Level = (int)testSkill.Level != 1 ? testSkill.Level - 1 : CodingSkillLevel.Master
+            };
+
+            CodingSkill updatedSkill = await Put<CodingSkill>($"{API_URL}/{testSkill.Id}", modified);
+            
+            Assert.True(updatedSkill != null, $"Test skill with id {testSkill.Id} should found from the API.");
+            Assert.True(updatedSkill.Name == modified.Name, $"Found coding skill name doesn't match to updated one.");
+            Assert.True(updatedSkill.Level == modified.Level, $"Found coding skill level doesn't match to updated one.");
         }
 
         [Fact]

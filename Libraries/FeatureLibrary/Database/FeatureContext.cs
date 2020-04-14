@@ -8,8 +8,17 @@ namespace FeatureLibrary.Models
     /// </summary>
     public class FeatureContext : DbContext
     {
-        public FeatureContext(DbContextOptions<FeatureContext> options) : base(options)
+        public FeatureContext() : base() {}
+        public FeatureContext(DbContextOptions options) : base(options)
         {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseNpgsql("User ID=postgres;Password=example;Server=db;Port=5432;Database=API_DB;Integrated Security=true;Pooling=true;");
+            }
         }
 
         public DbSet<UserEntity> Users { get; set; }
@@ -18,6 +27,7 @@ namespace FeatureLibrary.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<CodingSkillEntity>(entity => {
                 entity.ToTable(nameof(CodingSkillEntity));
 
@@ -27,9 +37,6 @@ namespace FeatureLibrary.Models
 
                 entity.HasKey(e => e.Id);
                 entity.HasIndex(e => new { e.Name, e.UserId }).IsUnique();
-
-                // Seed data :)
-                entity.HasData(SeedData.CodingSkills);
             });
 
             modelBuilder.Entity<UserEntity>(entity => {
@@ -43,12 +50,7 @@ namespace FeatureLibrary.Models
                     .WithOne()
                     .HasForeignKey(b => b.UserId)
                     .IsRequired();
-
-                // Seed data :)
-                entity.HasData(SeedData.Users);
             });
-
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

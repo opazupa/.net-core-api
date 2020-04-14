@@ -74,6 +74,24 @@ namespace IntegrationTests.Utils.Setup
         }
 
         /// <summary>
+        /// Execute a PUT request with given url and optional parametrs.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="url"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public async Task<T> Put<T>(string url, object content = null)
+        {
+            HttpResponseMessage putResponse = await
+                (await Client.LoginAsAdmin())
+                .PutAsync(url, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
+
+            await IntegrationTestHelper.CheckHttpErrorResponse(putResponse);
+
+            return JsonConvert.DeserializeObject<T>(await putResponse.Content.ReadAsStringAsync());
+        }
+
+        /// <summary>
         /// Execute a DELETE request with given url and optional parametrs.
         /// </summary>
         /// <typeparam name="T"></typeparam>

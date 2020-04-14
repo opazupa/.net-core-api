@@ -38,15 +38,18 @@ namespace API.Extensions
             }) ;
 
             using var serviceScope = app.ApplicationServices.CreateScope();
+            var dbContext = serviceScope.ServiceProvider.GetService<FeatureContext>();
             if (databaseConfiguration.UseInMemory)
             {
                 // Reset and seed the database.
-                serviceScope.ServiceProvider.GetService<FeatureContext>().Database.EnsureCreatedAsync();
+                dbContext.Database.EnsureCreatedAsync();
+                dbContext.EnsureSeedData();
             }
             else
             {
-                // Migrate the database.
-                serviceScope.ServiceProvider.GetService<FeatureContext>().Database.Migrate();
+                // Migrate and seed the database.
+                dbContext.Database.Migrate();
+                dbContext.EnsureSeedData();
             }
         }
 
