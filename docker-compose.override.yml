@@ -5,15 +5,24 @@ services:
     restart: always
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+
       - DatabaseConfiguration:UseInMemory=false
       - DatabaseConfiguration:ConnectionString=User ID=postgres;Password=example;Server=db;Port=5432;Database=API_DB;Integrated Security=true;Pooling=true;
+
       - JWTConfiguration:Secret=Docker-Secret-356178he9j20kle
+
+      - RedisConfiguration:UseInMemory=true
+      - RedisConfiguration:Ssl=false
+      - RedisConfiguration:AbortOnConnectFail=false
+      - RedisConfiguration:Password=redis_secret
+      - RedisConfiguration:Url=http://redis:6379
     networks:
       - api
     ports:
       - "5020:80"
     depends_on: 
       - db
+      - redis
 
   db:
     image: postgres
@@ -36,6 +45,14 @@ services:
         - pgadmin:/root/.pgadmin
     ports:
       - "5050:80"
+    networks:
+      - api
+
+  redis:
+    image: redis
+    command: redis-server --requirepass redis_secret
+    ports:
+      - "6379:6379"
     networks:
       - api
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using API.Extensions;
+using API.GraphQL.Configuration;
 using API.GraphQL.Extensions;
 using API.Models;
 using AutoMapper;
@@ -21,6 +22,7 @@ namespace API
         private IConfiguration Configuration { get; }
         private readonly DatabaseConfiguration _databaseConfiguration;
         private readonly JWTConfiguration _jwtConfiguration;
+        private readonly RedisConfiguration _redisConfiguration;
         private readonly IWebHostEnvironment _env;
 
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
@@ -29,6 +31,7 @@ namespace API
             _env = env;
             _databaseConfiguration = Configuration.GetSection(nameof(DatabaseConfiguration)).Get<DatabaseConfiguration>();
             _jwtConfiguration = Configuration.GetSection(nameof(JWTConfiguration)).Get<JWTConfiguration>();
+            _redisConfiguration = Configuration.GetSection(nameof(RedisConfiguration)).Get<RedisConfiguration>();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -40,6 +43,7 @@ namespace API
             services.ConfigureCors();
             services.AddSwaggerDoc();
 
+            services.Configure<RedisConfiguration>(Configuration.GetSection(nameof(RedisConfiguration)));
             services.Configure<JWTConfiguration>(Configuration.GetSection(nameof(JWTConfiguration)));
             services.ConfigureJWTAuthentication(_jwtConfiguration);
 
@@ -50,7 +54,7 @@ namespace API
             services.ConfigureFeatureServices();
 
             // Configure GraphQL
-            services.ConfigureGraphQL(debugMode: !_env.IsProduction());
+            services.ConfigureGraphQL(_redisConfiguration, debugMode: !_env.IsProduction());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
