@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FeatureLibrary.Migrations
 {
     [DbContext(typeof(FeatureContext))]
-    [Migration("20200414090927_InitialCreate")]
+    [Migration("20200414094737_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,7 +45,7 @@ namespace FeatureLibrary.Migrations
                     b.HasIndex("Name", "UserId")
                         .IsUnique();
 
-                    b.ToTable("CodingSkillEntity");
+                    b.ToTable("CodingSkill");
                 });
 
             modelBuilder.Entity("FeatureLibrary.Models.Entities.UserEntity", b =>
@@ -67,7 +67,7 @@ namespace FeatureLibrary.Migrations
                     b.HasIndex("UserName")
                         .IsUnique();
 
-                    b.ToTable("UserEntity");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("FeatureLibrary.Models.Entities.CodingSkillEntity", b =>

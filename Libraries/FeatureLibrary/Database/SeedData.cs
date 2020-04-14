@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using FeatureLibrary.Models.Entities;
 using static FeatureLibrary.Models.MockData;
 
@@ -12,7 +11,7 @@ namespace FeatureLibrary.Models
         /// </summary>
         public static readonly UserEntity ADMIN_USER = new UserEntity
         {
-            Id = 1,
+            Id = 9999999929939949,
             UserName = "admin",
             Password = "admin"
         };
@@ -26,7 +25,8 @@ namespace FeatureLibrary.Models
             {
                 context.Users.AddRange(
                     GetUsers(2)
-                    .Concat(new[] { ADMIN_USER }));
+                    .Concat(new[] { ADMIN_USER })
+                );
                 context.SaveChanges();
             }
             if (!context.CodingSkills.Any())

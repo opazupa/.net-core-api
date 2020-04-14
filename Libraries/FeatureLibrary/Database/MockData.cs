@@ -13,9 +13,10 @@ namespace FeatureLibrary.Models
         /// <returns></returns>
         public static IEnumerable<CodingSkillEntity> GetSkills(int amount, IEnumerable<UserEntity> users = null)
         {
+            var ids = 999999900;
             var codingSkills = new Faker<CodingSkillEntity>()
                 .StrictMode(false)
-                .RuleFor(s => s.Id, f => f.Random.Number(1, 10000000))
+                .RuleFor(s => s.Id, f => ids++)
                 .RuleFor(s => s.Name, n => $"{n.Hacker.Adjective()} {n.Hacker.Abbreviation()}")
                 .RuleFor(s => s.Level, l => l.PickRandom<CodingSkillLevel>());
 
@@ -31,7 +32,7 @@ namespace FeatureLibrary.Models
         /// <returns></returns>
         public static IEnumerable<UserEntity> GetUsers(int amount)
         {
-            var ids = 2;
+            var ids = 999999900;
             var users = new Faker<UserEntity>()
                 .StrictMode(false)
                 .RuleFor(s => s.Id, f => ids++)

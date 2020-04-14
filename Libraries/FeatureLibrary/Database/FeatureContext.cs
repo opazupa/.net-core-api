@@ -29,7 +29,7 @@ namespace FeatureLibrary.Models
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<CodingSkillEntity>(entity => {
-                entity.ToTable(nameof(CodingSkillEntity));
+                entity.ToTable("CodingSkill");
 
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.Property(e => e.Level).IsRequired();
@@ -40,7 +40,7 @@ namespace FeatureLibrary.Models
             });
 
             modelBuilder.Entity<UserEntity>(entity => {
-                entity.ToTable(nameof(UserEntity));
+                entity.ToTable("User");
                 entity.HasKey(e => e.Id);
 
                 entity.HasIndex(e => e.UserName).IsUnique();

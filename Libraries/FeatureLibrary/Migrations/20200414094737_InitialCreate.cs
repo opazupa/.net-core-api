@@ -8,7 +8,7 @@ namespace FeatureLibrary.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "UserEntity",
+                name: "User",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -18,11 +18,11 @@ namespace FeatureLibrary.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserEntity", x => x.Id);
+                    table.PrimaryKey("PK_User", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "CodingSkillEntity",
+                name: "CodingSkill",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -33,29 +33,29 @@ namespace FeatureLibrary.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CodingSkillEntity", x => x.Id);
+                    table.PrimaryKey("PK_CodingSkill", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CodingSkillEntity_UserEntity_UserId",
+                        name: "FK_CodingSkill_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "UserEntity",
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CodingSkillEntity_UserId",
-                table: "CodingSkillEntity",
+                name: "IX_CodingSkill_UserId",
+                table: "CodingSkill",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CodingSkillEntity_Name_UserId",
-                table: "CodingSkillEntity",
+                name: "IX_CodingSkill_Name_UserId",
+                table: "CodingSkill",
                 columns: new[] { "Name", "UserId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserEntity_UserName",
-                table: "UserEntity",
+                name: "IX_User_UserName",
+                table: "User",
                 column: "UserName",
                 unique: true);
         }
@@ -63,10 +63,10 @@ namespace FeatureLibrary.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CodingSkillEntity");
+                name: "CodingSkill");
 
             migrationBuilder.DropTable(
-                name: "UserEntity");
+                name: "User");
         }
     }
 }

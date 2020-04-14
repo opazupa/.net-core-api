@@ -43,7 +43,7 @@ namespace FeatureLibrary.Migrations
                     b.HasIndex("Name", "UserId")
                         .IsUnique();
 
-                    b.ToTable("CodingSkillEntity");
+                    b.ToTable("CodingSkill");
                 });
 
             modelBuilder.Entity("FeatureLibrary.Models.Entities.UserEntity", b =>
@@ -65,7 +65,7 @@ namespace FeatureLibrary.Migrations
                     b.HasIndex("UserName")
                         .IsUnique();
 
-                    b.ToTable("UserEntity");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("FeatureLibrary.Models.Entities.CodingSkillEntity", b =>
