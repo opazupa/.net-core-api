@@ -12,8 +12,7 @@ namespace API.GraphQL.Subscriptions
         protected override void Configure(IObjectTypeDescriptor<Events> descriptor)
         {
             descriptor
-                .BindFieldsExplicitly()
-                .Authorize();
+                .BindFieldsExplicitly();
 
             /*
              * Users

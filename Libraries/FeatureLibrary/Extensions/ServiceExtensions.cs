@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using System.Threading.Tasks;
 using CoreLibrary.Configuration;
 using FeatureLibrary.Repositories;
 using FeatureLibrary.Services;
@@ -45,30 +44,6 @@ namespace FeatureLibrary.Extensions
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false
-                };
-
-
-                // Sending the access token in the query string is required due to
-                // a limitation in Browser APIs. We restrict it to only calls to the
-                // SignalR hub in this code.
-                // See https://docs.microsoft.com/aspnet/core/signalr/security#access-token-logging
-                // for more information about security considerations when using
-                // the query string to transmit the access token.
-                options.Events = new JwtBearerEvents
-                {
-                    OnMessageReceived = context =>
-                    {
-                        const string AUTH = "Authorization";
-                        // Read the token out of the headers / query / message
-                        if (context.Request.Path.StartsWithSegments("/subscription"))
-                        {
-                            context.Token =
-                                (string)context.Request.Headers[AUTH] ??
-                                (string)context.Request.Query[AUTH] ??
-                                (string)context.HttpContext.Items[AUTH];
-                        }
-                        return Task.CompletedTask;
-                    }
                 };
             });
         }
