@@ -6,9 +6,10 @@ An API base for ASP.NET Core **3.1** project. :cake:
 - Users and JWT token authorization
 - Example REST CRUD-controller 
 - Alternative GraphQL API
-    - Subscription yet **unAuthorized**
+    - Subscriptions yet **unAuthorized**
 - EF Core In-memory DB with bogus seed objects
-- Docker with PostgrSQL dev setup.
+- Docker with PostgreSQL dev setup.
+    - Including pgAdmin or browsing
 - Integration test base
 - Unit test base
 
@@ -20,16 +21,16 @@ An API base for ASP.NET Core **3.1** project. :cake:
 - Common functionalities under **/Libraries/CorereLibrary** folder
 - Unit and integration tests under **/Tests**
 
-### How to spin me up
+## How to spin me up
 `docker-compose up`  
 
-#### Configuration
+## Configuration
 ```
 "DatabaseConfiguration": {
-    "UseInMemory": true, // Use InMemory DB provider
-    "ConnectionString": "pSQLConnString" // Postgre connection string if not in inMemory mode
+  "UseInMemory": true, // Use InMemory DB provider
+  "ConnectionString": "pSQLConnString" // Postgre connection string if not in inMemory mode
 },
 "JWTConfiguration": {
-    "Secret": "Dev-Secret-356178he9j20kle" // Token secret for JWT
+  "Secret": "Dev-Secret-356178he9j20kle" // Token secret for JWT
 }
 ```
