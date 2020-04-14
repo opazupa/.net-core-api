@@ -6,8 +6,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - DatabaseConfiguration:UseInMemory=false
-      - DatabaseConfiguration:ConnectionString=false
+      - DatabaseConfiguration:ConnectionString=User ID=postgres;Password=example;Server=db;Port=5432;Database=API_DB;Integrated Security=true;Pooling=true;
       - JWTConfiguration:Secret=Docker-Secret-356178he9j20kle
+    networks:
+      - api
     ports:
       - "5000:80"
     depends_on: 
@@ -19,7 +21,29 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: example
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - api
 
   pg-admin:
     image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    volumes:
+        - pgadmin:/root/.pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    networks:
+      - api
+
+networks: 
+  api:
+    
+volumes: 
+  pgdata:
+  pgadmin:
 

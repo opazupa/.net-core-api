@@ -35,7 +35,9 @@ namespace CoreLibrary.Extensions
             }
             else
             {
-                services.AddDbContext<T>(options => options.UseNpgsql(dbConfig.ConnectionString));
+                services.AddDbContext<T>(options => options
+                    .UseNpgsql(dbConfig.ConnectionString)
+                    .UseLoggerFactory(DBLoggerFactory));
             }
         }
     }
