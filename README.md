@@ -26,9 +26,6 @@ An API base for ASP.NET Core **3.1** project. :cake:
 
 ## Configuration
 ```
-"CryptographyConfiguration": {
-  "UseHashing": false // hash passwords to database
-},
 "DatabaseConfiguration": {
   "UseInMemory": true, // Use InMemory DB provider
   "ConnectionString": "pSQLConnString" // Postgre connection string if not in inMemory mode

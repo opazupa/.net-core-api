@@ -48,7 +48,7 @@ namespace API.Middlewares
             {
                 code = HttpStatusCode.NotFound;
             }
-            else if (ex is UnauthorizedException)
+            else if (ex is UnAuthorizedException)
             {
                 code = HttpStatusCode.Unauthorized;
             }

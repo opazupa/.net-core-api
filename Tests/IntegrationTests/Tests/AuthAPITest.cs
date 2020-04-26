@@ -6,6 +6,7 @@ using FeatureLibrary.Models;
 using IntegrationTests.Utils.Setup;
 using Xunit;
 using static FeatureLibrary.Models.MockData;
+using static FeatureLibrary.Models.SeedData;
 
 namespace IntegrationTests
 {
@@ -20,16 +21,14 @@ namespace IntegrationTests
         [Fact]
         public async Task Login()
         {
-            var admin = SeedData.ADMIN_USER;
-
             var auth = new Authentication()
             {
-                Password = admin.Password,
-                Username = admin.UserName
+                Password = ADMIN,
+                Username = ADMIN
             };
 
             var result = await Post<AuthenticationResult>($"{API_URL}/login", auth);
-            Assert.True(result.UserName == admin.UserName);
+            Assert.True(result.UserName == ADMIN);
             Assert.True(result.Token != null);
             Assert.True(result.TokenType == TokenType.Bearer);
             Assert.True(result.ExpiresIn.Date == DateTime.UtcNow.AddDays(7).Date);
@@ -44,7 +43,7 @@ namespace IntegrationTests
                 Username = u.UserName
             }).First();
 
-            await Assert.ThrowsAsync<UnauthorizedException>(() => Post<AuthenticationResult>($"{API_URL}/login", newUser));
+            await Assert.ThrowsAsync<UnAuthorizedException>(() => Post<AuthenticationResult>($"{API_URL}/login", newUser));
         }
 
         [Fact]

@@ -1,9 +1,10 @@
 ﻿using System;
+
 namespace CoreLibrary.Exceptions
 {
-    public class UnauthorizedException : Exception
+    public class UnAuthorizedException : Exception
     {
-        public UnauthorizedException(string msg = null): base(msg)
+        public UnAuthorizedException(string msg = null): base(msg)
         {     
         }
     }

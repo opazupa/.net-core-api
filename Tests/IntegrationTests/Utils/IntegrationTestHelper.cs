@@ -29,7 +29,7 @@ namespace IntegrationTests.Utils
                 case HttpStatusCode.BadRequest:
                     throw new BadRequestException(msg);
                 case HttpStatusCode.Unauthorized:
-                    throw new UnauthorizedException();
+                    throw new UnAuthorizedException();
                 case HttpStatusCode.NotFound:
                     throw new NotFoundException(msg);
                 case HttpStatusCode.InternalServerError:
@@ -62,8 +62,8 @@ namespace IntegrationTests.Utils
         {
             var adminAuth = new Authentication
             {
-                Username = ADMIN_USER.UserName,
-                Password = ADMIN_USER.Password
+                Username = ADMIN,
+                Password = ADMIN
             };
 
             HttpResponseMessage authResponse = await client.PostAsync("api/auth/login", new StringContent(JsonConvert.SerializeObject(adminAuth), Encoding.UTF8, "application/json"));

@@ -41,7 +41,6 @@ namespace API
             services.AddSwaggerDoc();
 
             services.Configure<JWTConfiguration>(Configuration.GetSection(nameof(JWTConfiguration)));
-            services.Configure<CryptographyConfiguration>(Configuration.GetSection(nameof(CryptographyConfiguration)));
             services.ConfigureJWTAuthentication(_jwtConfiguration);
 
             // Configure database and persistence

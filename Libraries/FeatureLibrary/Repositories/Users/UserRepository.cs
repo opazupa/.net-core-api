@@ -41,6 +41,16 @@ namespace FeatureLibrary.Repositories
         }
 
         /// <summary>
+        /// Get user by username
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public async Task<UserEntity> GetByUserName(string userName)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+        }
+
+        /// <summary>
         /// Get all users
         /// </summary>
         /// <returns></returns>
@@ -49,20 +59,6 @@ namespace FeatureLibrary.Repositories
             return await _context.Users
                 .OrderBy(u => u.UserName)
                 .ToListAsync();
-        }
-
-        /// <summary>
-        /// Verify user with matching username and password
-        /// TODO don't use in production
-        /// </summary>
-        /// <param name="auth"></param>
-        /// <returns></returns>
-        public Task<UserEntity> Verify(Authentication auth)
-        {
-            return _context.Users
-                .Where(u => u.UserName == auth.Username)
-                .Where(u => u.Password == auth.Password)
-                .SingleOrDefaultAsync();
         }
     }
 }

@@ -1,19 +1,21 @@
 ﻿using System.Linq;
 using FeatureLibrary.Models.Entities;
 using static FeatureLibrary.Models.MockData;
+using static BCrypt.Net.BCrypt;
 
 namespace FeatureLibrary.Models
 {
     public static class SeedData
     {
+        public const string ADMIN = "admin";
         /// <summary>
         /// Admin user for testing
         /// </summary>
-        public static readonly UserEntity ADMIN_USER = new UserEntity
+        private static readonly UserEntity ADMIN_USER = new UserEntity
         {
             Id = 9999999929939949,
-            UserName = "admin",
-            Password = "admin"
+            UserName = ADMIN,
+            Password = ADMIN
         };
 
         /// <summary>
@@ -26,6 +28,11 @@ namespace FeatureLibrary.Models
                 context.Users.AddRange(
                     GetUsers(2)
                     .Concat(new[] { ADMIN_USER })
+                    .Select(u => {
+                        // Hash passwords to the database
+                        u.Password = HashPassword(u.Password);
+                        return u;
+                    })
                 );
                 context.SaveChanges();
             }

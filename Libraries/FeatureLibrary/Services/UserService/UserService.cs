@@ -12,6 +12,7 @@ using FeatureLibrary.Repositories;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using static FeatureLibrary.Extensions.ClaimExtensions;
+using static BCrypt.Net.BCrypt;
 
 namespace FeatureLibrary.Services
 {
@@ -22,13 +23,11 @@ namespace FeatureLibrary.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly JWTConfiguration _jwtConfiguration;
-        private readonly CryptographyConfiguration _cryptoConfiguration;
 
-        public UserService(IUserRepository userRepository, IOptions<JWTConfiguration> jwtOptions, IOptions<CryptographyConfiguration> cryptoOptions)
+        public UserService(IUserRepository userRepository, IOptions<JWTConfiguration> jwtOptions)
         {
             _userRepository = userRepository;
             _jwtConfiguration = jwtOptions.Value;
-            _cryptoConfiguration = cryptoOptions.Value;
         }
 
         /// <summary>
@@ -38,20 +37,11 @@ namespace FeatureLibrary.Services
         /// <returns></returns>
         public async Task<AuthenticationResult> Authenticate(Authentication auth)
         {
-            UserEntity user;
-            if (_cryptoConfiguration.UseHashing)
-            {
-                user = null;
-            }
-            else 
-            {
-                // Password is stored as plain string
-                user = await _userRepository.Verify(auth);
-            }
+            var user = await _userRepository.GetByUserName(auth.Username);
 
-            if (user == null)
+            if (user == null || !Verify(auth.Password, user.Password))
             {
-                throw new UnauthorizedException($"Username {auth.Username} or password not found or incorrect.");
+                throw new UnAuthorizedException($"Username {auth.Username} or password not found or incorrect.");
             }
 
             return GenerateToken(user);
@@ -66,7 +56,7 @@ namespace FeatureLibrary.Services
         {
             var user = new UserEntity {
                 UserName = auth.Username,
-                Password = auth.Password
+                Password = HashPassword(auth.Password)
             };
 
             user = await _userRepository.Add(user);

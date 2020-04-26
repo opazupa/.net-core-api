@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using FeatureLibrary.Models;
 using FeatureLibrary.Models.Entities;
 using FeatureLibrary.Repositories;
 using UnitTests.Utils.Setup;
@@ -14,26 +13,6 @@ namespace UnitTests.Repositories
     public class UserRepositoryTest
     {
         private readonly IEnumerable<UserEntity> testUsers = GetUsers(2);
-
-        [Fact]
-        public async Task VerifyUser()
-        {
-            var testUser = testUsers.Last();
-            using var ctx = await DBContextHelper.ResetWithData(testUsers);
-            IUserRepository repo = new UserRepository(ctx);
-
-            var auth = new Authentication()
-            {
-                Password = testUser.Password,
-                Username = testUser.UserName
-            };
-
-            var user = await repo.Verify(auth);
-            Assert.Equal(user.Id, testUser.Id);
-            Assert.Equal(user.UserName, testUser.UserName);
-            Assert.Equal(user.Password, testUser.Password);
-
-        }
 
         [Fact]
         public async Task AddUser()
