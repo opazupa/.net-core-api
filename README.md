@@ -9,14 +9,14 @@ An API base for ASP.NET Core **3.1** project. :cake:
     - Subscriptions yet **unAuthorized**
 - EF Core In-memory DB with bogus seed objects
 - Docker with PostgreSQL dev setup.
-    - Including pgAdmin or browsing
+    - Including pgAdmin for browsing
 - Integration test base
 - Unit test base
 
 ## Code Structure
 
 - API under **/API** folder
-- GraphQl API under **A/PI/GraphQL**
+- GraphQl API under **API/GraphQL**
 - Data schema and business logic under **/Libraries/FeatureLibrary** folder
 - Common functionalities under **/Libraries/CorereLibrary** folder
 - Unit and integration tests under **/Tests**
@@ -26,6 +26,9 @@ An API base for ASP.NET Core **3.1** project. :cake:
 
 ## Configuration
 ```
+"CryptographyConfiguration": {
+  "UseHashing": false // hash passwords to database
+},
 "DatabaseConfiguration": {
   "UseInMemory": true, // Use InMemory DB provider
   "ConnectionString": "pSQLConnString" // Postgre connection string if not in inMemory mode

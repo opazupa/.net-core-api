@@ -18,7 +18,7 @@ namespace FeatureLibrary.Models.Entities
         /// </summary>
         public string UserName { get; set; }
         /// <summary>
-        /// User password. TODO hash passwords with salt to store it!
+        /// User password.
         /// </summary>
         public string Password { get; set; }
         /// <summary>

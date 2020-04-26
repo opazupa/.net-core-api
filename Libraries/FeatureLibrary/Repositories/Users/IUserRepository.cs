@@ -2,7 +2,6 @@
 using FeatureLibrary.Models.Entities;
 using FeatureLibrary.Models;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace FeatureLibrary.Repositories
 {

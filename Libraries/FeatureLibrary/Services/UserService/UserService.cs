@@ -22,11 +22,13 @@ namespace FeatureLibrary.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly JWTConfiguration _jwtConfiguration;
+        private readonly CryptographyConfiguration _cryptoConfiguration;
 
-        public UserService(IUserRepository userRepository, IOptions<JWTConfiguration> options)
+        public UserService(IUserRepository userRepository, IOptions<JWTConfiguration> jwtOptions, IOptions<CryptographyConfiguration> cryptoOptions)
         {
             _userRepository = userRepository;
-            _jwtConfiguration = options.Value;
+            _jwtConfiguration = jwtOptions.Value;
+            _cryptoConfiguration = cryptoOptions.Value;
         }
 
         /// <summary>
@@ -36,7 +38,16 @@ namespace FeatureLibrary.Services
         /// <returns></returns>
         public async Task<AuthenticationResult> Authenticate(Authentication auth)
         {
-            var user = await _userRepository.Verify(auth);
+            UserEntity user;
+            if (_cryptoConfiguration.UseHashing)
+            {
+                user = null;
+            }
+            else 
+            {
+                // Password is stored as plain string
+                user = await _userRepository.Verify(auth);
+            }
 
             if (user == null)
             {
