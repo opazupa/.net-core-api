@@ -6,7 +6,7 @@ An API base for ASP.NET Core **3.1** project. :cake:
 - Users and JWT token authorization
 - Example REST CRUD-controller 
 - Alternative GraphQL API
-    - Subscriptions yet **unAuthorized**
+    - Subscriptions however **unAuthorized**
 - EF Core In-memory DB with bogus seed objects
 - Docker with PostgreSQL dev setup.
     - Including pgAdmin for browsing
@@ -15,14 +15,14 @@ An API base for ASP.NET Core **3.1** project. :cake:
 
 ## Code Structure
 
-- API under **/API** folder
-- GraphQl API under **API/GraphQL**
-- Data schema and business logic under **/Libraries/FeatureLibrary** folder
-- Common functionalities under **/Libraries/CorereLibrary** folder
-- Unit and integration tests under **/Tests**
+- API under [`API`](./API)
+- GraphQL API under [`GraphQL`](./API/GraphQL)
+- Data schema and business logic under [`FeatureLibrary`](./Libraries/FeatureLibrary)
+- Common functionalities under [`CoreLibrary`](./Libraries/CoreLibrary)
+- Unit and integration tests under [`Tests`](./Tests)
 
 ## How to spin me up
-`docker-compose up`  
+> ```docker-compose up```
 
 ## Configuration
 ```
