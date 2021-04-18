@@ -1,4 +1,4 @@
-# .NetCoreApi
+# .Net Core Api
 
 An API base for ASP.NET Core **3.1** project. :cake:
 
